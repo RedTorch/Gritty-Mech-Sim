@@ -11,7 +11,7 @@ public class CockpitLookCam : MonoBehaviour
     [SerializeField] private Camera pilotPovCamera;
     private float pilotingFov = 60f;
     private float freelookFov = 75f;
-    private float zoomedFov = 40f;
+    private float zoomedFov = 45f;
     private float targetFov = 60f;
     private RaycastHit hit;
     private float camVel;
