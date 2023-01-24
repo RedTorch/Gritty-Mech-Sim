@@ -24,7 +24,7 @@ public class MechMovementController : MonoBehaviour
     [Tooltip("look speed of the mech camera root, in degrees per second")]
     private float lookSpeed = 90f;
 
-    private float tiltFactor = 3f;
+    private float tiltFactor = 5f;
     private float currTilt = 0f;
     private float tiltVelocity = 0f;
 
@@ -44,8 +44,10 @@ public class MechMovementController : MonoBehaviour
         // CurrLookRotation.y = Mathf.Clamp(CurrLookRotation.y + (Input.GetAxis("Mouse Y") * LookSpeed),-80f,80f);
         if(pilotLookCam.getIsPiloting()) {
             Vector2 targetLook = pilotLookCam.getLookRotation();
-            CurrLookRotation.x = Mathf.MoveTowardsAngle(CurrLookRotation.x, targetLook.x, lookSpeed*Time.deltaTime);
-            CurrLookRotation.y = Mathf.Clamp(Mathf.LerpAngle(CurrLookRotation.y, targetLook.y, lookSpeed*Time.deltaTime),-30f,30f);
+            // CurrLookRotation.x = Mathf.MoveTowardsAngle(CurrLookRotation.x, targetLook.x, lookSpeed*Time.deltaTime);
+            // CurrLookRotation.y = Mathf.Clamp(Mathf.MoveTowardsAngle(CurrLookRotation.y, targetLook.y, lookSpeed*Time.deltaTime),-30f,30f);
+            CurrLookRotation.x = Mathf.Lerp(CurrLookRotation.x, targetLook.x, 10f*Time.deltaTime);
+            CurrLookRotation.y = Mathf.Clamp(Mathf.Lerp(CurrLookRotation.y, targetLook.y, 10f*Time.deltaTime),-30f,30f);
         }
         currTilt = Mathf.SmoothDamp(currTilt, (CurrVelocity.x/MoveSpeed)*(-1f)*tiltFactor, ref tiltVelocity, 0.2f);
         transform.localRotation = Quaternion.Euler(0f,CurrLookRotation.x,0f);
@@ -75,5 +77,9 @@ public class MechMovementController : MonoBehaviour
             // rb.velocity = (transform.right * CurrVelocity.x) + (transform.forward * CurrVelocity.z);
             rb.AddForce(((transform.right * CurrVelocity.x) + (transform.forward * CurrVelocity.z) - rb.velocity)*5f);
         }
+    }
+
+    public float getLookY() {
+        return CurrLookRotation.y;
     }
 }
