@@ -30,8 +30,8 @@ public class MechMovementController : MonoBehaviour
 
     private float heat = 0f; // DISPLAY
     private float maxHeat = 10f;
-    private float dashHeat = 1f;
-    private float shieldHeat = 1f;
+    private float dashHeat = 1.5f;
+    private float shieldHeat = 1.5f;
 
     private bool isShielding = false; // DISPLAY ALL THESE
     private bool isHeatVenting = false;
@@ -44,6 +44,13 @@ public class MechMovementController : MonoBehaviour
     private float health = 100f; // DISPLAY
     private float maxHealth = 100f;
     private bool isAlive = true;
+
+    private float attackRange = 100f;
+    private float currFireInterval = 0f;
+    private float fireInterval = 0.25f;
+    [SerializeField] private GameObject bulletPrefab;
+    private float weaponOverheat = 0f;
+    private float weaponOverheatMax = 10f;
 
     // Start is called before the first frame update
     void Start()
@@ -66,6 +73,9 @@ public class MechMovementController : MonoBehaviour
             // CurrLookRotation.y = Mathf.Clamp(Mathf.MoveTowardsAngle(CurrLookRotation.y, targetLook.y, lookSpeed*Time.deltaTime),-30f,30f);
             CurrLookRotation.x = Mathf.Lerp(CurrLookRotation.x, targetLook.x, 10f*Time.deltaTime);
             CurrLookRotation.y = Mathf.Clamp(Mathf.Lerp(CurrLookRotation.y, targetLook.y, 10f*Time.deltaTime),-30f,30f);
+            if(Input.GetButton("Fire1")) {
+                tryFireGun();
+            }
         }
         currTilt = Mathf.SmoothDamp(currTilt, (CurrVelocity.x/MoveSpeed)*(-1f)*tiltFactor, ref tiltVelocity, 0.2f);
         transform.localRotation = Quaternion.Euler(0f,CurrLookRotation.x,0f);
@@ -110,12 +120,13 @@ public class MechMovementController : MonoBehaviour
         if(heat > (maxHeat - 0.5f) || isHeatVenting) {
             isShielding = false;
         }
+
         if(isShielding) {
             setHeat(heat + (shieldHeat*Time.deltaTime));
             currShield += shieldRecovery * Time.deltaTime;
         }
         else {
-            currShield += shieldRecovery * 0.25f * Time.deltaTime;
+            currShield -= shieldRecovery * 0.1f * Time.deltaTime;
         }
         currShield = Mathf.Clamp(currShield,0f,maxShield);
 
@@ -130,6 +141,8 @@ public class MechMovementController : MonoBehaviour
             }
             setHeat(heat -= (recoveryMultiplier * Time.deltaTime));
         }
+
+        weaponOverheat = Mathf.Clamp(weaponOverheat-Time.deltaTime,0f,weaponOverheatMax);
     }
 
     public float getLookY() {
@@ -192,5 +205,21 @@ public class MechMovementController : MonoBehaviour
 
     public bool getIsShielding() {
         return isShielding;
+    }
+
+    public float getWeaponPercent() {
+        return Mathf.Floor(100f*weaponOverheat/weaponOverheatMax);
+    }
+
+    void tryFireGun() {
+        if(weaponOverheat >= weaponOverheatMax) {
+            return;
+        }
+        currFireInterval -= Time.deltaTime;
+        if(currFireInterval<=0f) {
+            Instantiate(bulletPrefab, transform.position, transform.rotation);
+            currFireInterval += fireInterval;
+            weaponOverheat += 0.5f;
+        }
     }
 }

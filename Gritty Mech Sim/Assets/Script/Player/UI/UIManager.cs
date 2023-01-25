@@ -31,10 +31,10 @@ public class UIManager : MonoBehaviour
         float heat = mmcon.getHeatPercent();
         heatText.text = "HEAT - " + heat + "%";
         if(mmcon.getIsHeatVenting()) {
-            heatText.text += "\nHEAT VENT ACTIVE";
+            heatText.text += "\nHEAT VENTING";
         }
         if(heat>80f) {
-            heatText.text += "\nDANGER: VENT HEAT";
+            heatText.text += "\nDANGER: VENT";
             heatText.color = criticalColor;
         }
         else if(heat > 60f) {
@@ -46,7 +46,7 @@ public class UIManager : MonoBehaviour
         float hp = mmcon.getHealthPercent();
         damageText.text = "DMG - " + hp + "%";
         if(hp<20f) {
-            damageText.text += "\nALERT - HEAVY DAMAGE SUSTAINED";
+            damageText.text += "\nHEAVY DAMAGE";
             damageText.color = criticalColor;
         }
         else if(hp<40f) {
@@ -55,11 +55,23 @@ public class UIManager : MonoBehaviour
         else {
             damageText.color = safeColor;
         }
-        weaponText.text = "WEP - ";
+        float wep = mmcon.getWeaponPercent();
+        weaponText.text = "WEP - " + wep + "%";
+        if(wep>90f) {
+            weaponText.color = criticalColor;
+            weaponText.text += "\nOVERHEAT";
+        }
+        else if(wep>70f) {
+            weaponText.color = dangerColor;
+            weaponText.text += "\nOVERHEAT";
+        }
+        else {
+            weaponText.color = safeColor;
+        }
         float shield = mmcon.getShieldPercent();
         shieldText.text = "SHLD - " + shield + "%";
         if(mmcon.getIsShielding()) {
-            shieldText.text += "\nSHIELDS: ACTIVE";
+            shieldText.text += "\nSHIELDS UP";
         }
         if(shield<10f) {
             shieldText.text += "\nSHIELDS LOW";

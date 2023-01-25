@@ -60,6 +60,10 @@ public class CockpitLookCam : MonoBehaviour
         transform.localRotation = Quaternion.Euler(-1f * CurrLookRotation.y, 0f, 0f);
         pilotPovCamera.fieldOfView = Mathf.SmoothDamp(pilotPovCamera.fieldOfView, targetFov, ref camVel, 0.1f);
         // print("FLR: (" + freelookRotation.x + ", " + freelookRotation.y + "),   CT.LR: (" + cameraTransform.localRotation.x + ", " + cameraTransform.localRotation.y + ", " + cameraTransform.localRotation.z + ")");
+
+        if(Input.GetKeyDown("r")) {
+            Application.LoadLevel(Application.loadedLevel);
+        }
     }
 
     void OnApplicationFocus(bool hasFocus)

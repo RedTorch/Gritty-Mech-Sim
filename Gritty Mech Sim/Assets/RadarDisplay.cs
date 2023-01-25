@@ -10,8 +10,8 @@ public class RadarDisplay : MonoBehaviour
     [SerializeField] private GameObject detectionCircleSprite;
     private GameObject[] enemyLocs;
     private GameObject[] enemyIcons;
-    private float detectionDistance = 100f;
-    private float scaleFactor = 1f;
+    private float detectionDistance = 300f;
+    private float scaleFactor = 2f;
     // Start is called before the first frame update
     void Start()
     {
