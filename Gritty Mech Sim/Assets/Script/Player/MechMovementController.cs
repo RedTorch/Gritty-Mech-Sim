@@ -36,7 +36,6 @@ public class MechMovementController : MonoBehaviour
     private bool isShielding = false; // DISPLAY ALL THESE
     private bool isHeatVenting = false;
     private bool canDash = false;
-    private bool canShield = false;
 
     private float currShield = 0f; // DISPLAY
     private float maxShield = 100f;
@@ -75,10 +74,6 @@ public class MechMovementController : MonoBehaviour
 
         // Disable systems based on max heat
         canDash = heat < (maxHeat - dashHeat);
-        canShield = heat > maxHeat - 0.5f;
-        if(isShielding && canShield) {
-            isShielding = false;
-        }
 
         if(isDashing) {
             if(camAnimator) {
@@ -106,24 +101,23 @@ public class MechMovementController : MonoBehaviour
         }
 
         if(Input.GetKeyDown("q")) {
-            if(isShielding) {
-                isShielding = false;
-            }
-            else if(canShield){
-                isShielding = true;
-            }
+            isHeatVenting = !isHeatVenting;
+        }
+
+        if(Input.GetKeyDown("e")) {
+            isShielding = !isShielding;
+        }
+        if(heat > (maxHeat - 0.5f) || isHeatVenting) {
+            isShielding = false;
         }
         if(isShielding) {
-            setHeat(heat + shieldHeat);
+            setHeat(heat + (shieldHeat*Time.deltaTime));
             currShield += shieldRecovery * Time.deltaTime;
         }
         else {
             currShield += shieldRecovery * 0.25f * Time.deltaTime;
         }
-
-        if(Input.GetKeyDown("e")) {
-            isHeatVenting = !isHeatVenting;
-        }
+        currShield = Mathf.Clamp(currShield,0f,maxShield);
 
         // heat calculations
         if(heat > 0f) {
@@ -178,5 +172,25 @@ public class MechMovementController : MonoBehaviour
             return ((CurrLookRotation.x + 1080f) % 360f)/360f;
         }
         return CurrLookRotation.x/360f;
+    }
+
+    public float getHeatPercent() {
+        return Mathf.Floor(100f*heat/maxHeat);
+    }
+
+    public float getHealthPercent() {
+        return Mathf.Floor(100f*health/maxHealth);
+    }
+
+    public float getShieldPercent() {
+        return Mathf.Floor(100f*currShield/maxShield);
+    }
+
+    public bool getIsHeatVenting() {
+        return isHeatVenting;
+    }
+
+    public bool getIsShielding() {
+        return isShielding;
     }
 }

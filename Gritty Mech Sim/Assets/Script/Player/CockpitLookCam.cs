@@ -9,10 +9,10 @@ public class CockpitLookCam : MonoBehaviour
     private float LookSpeed = 3f;
     private bool isPiloting = true;
     [SerializeField] private Camera pilotPovCamera;
-    private float pilotingFov = 60f;
+    private float pilotingFov = 65f;
     private float freelookFov = 75f;
     private float zoomedFov = 45f;
-    private float targetFov = 60f;
+    private float targetFov = 62f;
     private RaycastHit hit;
     private float camVel;
 
@@ -40,6 +40,11 @@ public class CockpitLookCam : MonoBehaviour
                 if(hit.collider.gameObject.tag == "InteractablePanel") {
                     targetFov = zoomedFov;
                 }
+                if(Input.GetButtonDown("Fire1")) {
+                    if(hit.collider.gameObject.GetComponent<InteractableButton>() != null) {
+                        hit.collider.gameObject.GetComponent<InteractableButton>().onPressed();
+                    }
+                }
             }
             pilotFreelookCrosshairs.enabled = true;
         } else {
@@ -54,7 +59,7 @@ public class CockpitLookCam : MonoBehaviour
         camRootOuter.localRotation = Quaternion.Euler(0f,CurrLookRotation.x,0f);
         transform.localRotation = Quaternion.Euler(-1f * CurrLookRotation.y, 0f, 0f);
         pilotPovCamera.fieldOfView = Mathf.SmoothDamp(pilotPovCamera.fieldOfView, targetFov, ref camVel, 0.1f);
-        print("FLR: (" + freelookRotation.x + ", " + freelookRotation.y + "),   CT.LR: (" + cameraTransform.localRotation.x + ", " + cameraTransform.localRotation.y + ", " + cameraTransform.localRotation.z + ")");
+        // print("FLR: (" + freelookRotation.x + ", " + freelookRotation.y + "),   CT.LR: (" + cameraTransform.localRotation.x + ", " + cameraTransform.localRotation.y + ", " + cameraTransform.localRotation.z + ")");
     }
 
     void OnApplicationFocus(bool hasFocus)
