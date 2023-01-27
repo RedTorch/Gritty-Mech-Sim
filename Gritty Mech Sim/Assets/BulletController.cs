@@ -5,8 +5,8 @@ using UnityEngine;
 public class BulletController : MonoBehaviour
 {
     private float Damage = 15f;
-    private float SpeedInMetersPerSecond = 200f;
-    private float MaxDistance = 400f;
+    private float SpeedInMetersPerSecond = 1200f;
+    private float MaxDistance = 2400f;
     private float totalDistTraveled = 0f;
     // Start is called before the first frame update
     void Start()

@@ -11,7 +11,7 @@ public class RadarDisplay : MonoBehaviour
     private GameObject[] enemyLocs;
     private GameObject[] enemyIcons;
     private float detectionDistance = 300f;
-    private float scaleFactor = 2f;
+    private float scaleFactor = 0.5f;
     // Start is called before the first frame update
     void Start()
     {
@@ -29,7 +29,7 @@ public class RadarDisplay : MonoBehaviour
     void Update()
     {
         for(int i = 0; i < enemyLocs.Length; i++) {
-            print("distance = " + Vector3.Distance(enemyLocs[i].transform.position, mechPos.position) + " and enemyLocs[i] == null is " + (enemyLocs == null));
+            // print("distance = " + Vector3.Distance(enemyLocs[i].transform.position, mechPos.position) + " and enemyLocs[i] == null is " + (enemyLocs == null));
             if(enemyLocs[i] != null && Vector3.Distance(enemyLocs[i].transform.position, mechPos.position) <= detectionDistance) {
                 Vector3 relPos = mechPos.InverseTransformPoint(enemyLocs[i].transform.position) * scaleFactor;
                 Vector2 newAnchorPos = new Vector2(relPos.x,relPos.z);

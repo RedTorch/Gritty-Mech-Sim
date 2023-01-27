@@ -67,12 +67,12 @@ public class MechMovementController : MonoBehaviour
         if(!isAlive) {
             return;
         }
+        Vector2 targetLook = pilotLookCam.getLookRotation();
+        // CurrLookRotation.x = Mathf.MoveTowardsAngle(CurrLookRotation.x, targetLook.x, lookSpeed*Time.deltaTime);
+        // CurrLookRotation.y = Mathf.Clamp(Mathf.MoveTowardsAngle(CurrLookRotation.y, targetLook.y, lookSpeed*Time.deltaTime),-30f,30f);
+        CurrLookRotation.x = Mathf.Lerp(CurrLookRotation.x, targetLook.x, 10f*Time.deltaTime);
+        CurrLookRotation.y = Mathf.Clamp(Mathf.Lerp(CurrLookRotation.y, targetLook.y, 10f*Time.deltaTime),-30f,30f);
         if(pilotLookCam.getIsPiloting()) {
-            Vector2 targetLook = pilotLookCam.getLookRotation();
-            // CurrLookRotation.x = Mathf.MoveTowardsAngle(CurrLookRotation.x, targetLook.x, lookSpeed*Time.deltaTime);
-            // CurrLookRotation.y = Mathf.Clamp(Mathf.MoveTowardsAngle(CurrLookRotation.y, targetLook.y, lookSpeed*Time.deltaTime),-30f,30f);
-            CurrLookRotation.x = Mathf.Lerp(CurrLookRotation.x, targetLook.x, 10f*Time.deltaTime);
-            CurrLookRotation.y = Mathf.Clamp(Mathf.Lerp(CurrLookRotation.y, targetLook.y, 10f*Time.deltaTime),-30f,30f);
             if(Input.GetButton("Fire1")) {
                 tryFireGun();
             }
@@ -217,7 +217,8 @@ public class MechMovementController : MonoBehaviour
         }
         currFireInterval -= Time.deltaTime;
         if(currFireInterval<=0f) {
-            Instantiate(bulletPrefab, transform.position, transform.rotation);
+            Instantiate(bulletPrefab, lookRoot.transform.position, lookRoot.transform.rotation);
+            pilotLookCam.addShake(1f,0.5f, new Vector3(1f,0f,0f));
             currFireInterval += fireInterval;
             weaponOverheat += 0.5f;
         }
