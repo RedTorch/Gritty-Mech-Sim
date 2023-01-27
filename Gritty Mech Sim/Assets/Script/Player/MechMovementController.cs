@@ -5,7 +5,10 @@ using UnityEngine;
 public class MechMovementController : MonoBehaviour
 {
     private Vector3 CurrVelocity = new Vector3(0f,0f,0f);
+    private float[] gearSpeed = new float[] {12f,24f,40f};
+    private float[] gearMode = new float[] {5f,3f,1.5f};
     private float MoveSpeed = 12f;
+    private float accelerationFactor = 5f;
     private Vector2 CurrLookRotation = new Vector2(0f,0f);
     private Rigidbody rb;
     [SerializeField] private GameObject lookRoot;
@@ -52,6 +55,9 @@ public class MechMovementController : MonoBehaviour
     private float weaponOverheat = 0f;
     private float weaponOverheatMax = 10f;
 
+    private AudioSource audioSource;
+    [SerializeField] private AudioClip cannonShot;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -59,6 +65,7 @@ public class MechMovementController : MonoBehaviour
             camAnimator.SetFloat("runSpeed", 0f);
         }
         rb = gameObject.GetComponent<Rigidbody>();
+        audioSource = gameObject.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -107,7 +114,7 @@ public class MechMovementController : MonoBehaviour
                 camAnimator.SetFloat("runSpeed", CurrVelocity.magnitude);
             }
             // rb.velocity = (transform.right * CurrVelocity.x) + (transform.forward * CurrVelocity.z);
-            rb.AddForce(((transform.right * CurrVelocity.x) + (transform.forward * CurrVelocity.z) - rb.velocity)*5f);
+            rb.AddForce(((transform.right * CurrVelocity.x) + (transform.forward * CurrVelocity.z) - rb.velocity)*accelerationFactor);
         }
 
         if(Input.GetKeyDown("q")) {
@@ -219,6 +226,7 @@ public class MechMovementController : MonoBehaviour
         if(currFireInterval<=0f) {
             Instantiate(bulletPrefab, lookRoot.transform.position, lookRoot.transform.rotation);
             pilotLookCam.addShake(1f,0.5f, new Vector3(1f,0f,0f));
+            audioSource.PlayOneShot(cannonShot, 1f);
             currFireInterval += fireInterval;
             weaponOverheat += 0.5f;
         }
