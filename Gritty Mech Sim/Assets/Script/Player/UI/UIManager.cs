@@ -28,6 +28,7 @@ public class UIManager : MonoBehaviour
         if(!mmcon) {
             return;
         }
+
         float heat = mmcon.getHeatPercent();
         heatText.text = "HEAT - " + heat + "%";
         if(mmcon.getIsHeatVenting()) {
@@ -43,6 +44,7 @@ public class UIManager : MonoBehaviour
         else {
             heatText.color = safeColor;
         }
+
         float hp = mmcon.getHealthPercent();
         damageText.text = "DMG - " + hp + "%";
         if(hp<20f) {
@@ -55,6 +57,7 @@ public class UIManager : MonoBehaviour
         else {
             damageText.color = safeColor;
         }
+
         float wep = mmcon.getWeaponPercent();
         weaponText.text = "WEP - " + wep + "%";
         if(wep>90f) {
@@ -68,6 +71,7 @@ public class UIManager : MonoBehaviour
         else {
             weaponText.color = safeColor;
         }
+        
         float shield = mmcon.getShieldPercent();
         shieldText.text = "SHLD - " + shield + "%";
         if(mmcon.getIsShielding()) {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CockpitLookCam : MonoBehaviour
+public class CockpitController : MonoBehaviour
 {
     private Vector2 CurrLookRotation = new Vector2(0f,0f);
     private float LookSpeed = 3f;
@@ -65,6 +65,8 @@ public class CockpitLookCam : MonoBehaviour
             CurrLookRotation.x += Input.GetAxis("Mouse X") * LookSpeed;
             CurrLookRotation.y = Mathf.Clamp(CurrLookRotation.y + (Input.GetAxis("Mouse Y") * LookSpeed),-80f,80f);
             freelookRotation = new Vector2(Mathf.Lerp(freelookRotation.x,0f,10f * Time.deltaTime), Mathf.Lerp(freelookRotation.y,0f,10f * Time.deltaTime));
+
+            mechMoveController.setIsFiring(Input.GetButton("Fire1"));
         }
         cameraTransform.localRotation = Quaternion.Euler(freelookRotation.y + camshakeRotOffset.x, freelookRotation.x + camshakeRotOffset.y, 0f);
         camRootOuter.localRotation = Quaternion.Euler(0f,CurrLookRotation.x,0f);
@@ -74,6 +76,24 @@ public class CockpitLookCam : MonoBehaviour
 
         if(Input.GetKeyDown("r")) {
             Application.LoadLevel(Application.loadedLevel);
+        }
+
+        mechMoveController.setTargetLook(CurrLookRotation);
+
+        mechMoveController.setCurrMoveInput(new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")));
+
+        mechMoveController.setIsFiring(Input.GetButton("Fire1"));
+
+        if(Input.GetButtonDown("Fire3")) {
+            mechMoveController.setAttemptDash();
+        }
+
+        if(Input.GetKeyDown("q")) {
+            mechMoveController.setIsVenting();
+        }
+
+        if(Input.GetKeyDown("e")) {
+            mechMoveController.setIsShielding();
         }
 
         // if(Input.GetKeyDown("t")) {
@@ -94,14 +114,6 @@ public class CockpitLookCam : MonoBehaviour
         else {
             // pause game, etc..
         }
-    }
-
-    public Vector2 getLookRotation() {
-        return CurrLookRotation;
-    }
-
-    public bool getIsPiloting() {
-        return isPiloting;
     }
 
     public void addShake(float nintensity, float duration, Vector3 direction = new Vector3(), float newshaketime = 0.002f) {

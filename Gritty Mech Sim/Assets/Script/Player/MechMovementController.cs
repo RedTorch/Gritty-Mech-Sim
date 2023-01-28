@@ -22,7 +22,7 @@ public class MechMovementController : MonoBehaviour
 
     [SerializeField] private Animator camAnimator;
 
-    [SerializeField] private CockpitLookCam pilotLookCam;
+    [SerializeField] private CockpitController pilotLookCam;
     [SerializeField] private Transform cockpitRotationRoot;
     [Tooltip("look speed of the mech camera root, in degrees per second")]
     private float lookSpeed = 90f;
@@ -48,7 +48,6 @@ public class MechMovementController : MonoBehaviour
     private float maxHealth = 100f;
     private bool isAlive = true;
 
-    private float attackRange = 100f;
     private float currFireInterval = 0f;
     private float fireInterval = 0.25f;
     [SerializeField] private GameObject bulletPrefab;
@@ -57,6 +56,10 @@ public class MechMovementController : MonoBehaviour
 
     private AudioSource audioSource;
     [SerializeField] private AudioClip cannonShot;
+
+    private Vector2 targetLook = new Vector2();
+    private Vector2 currMoveInput = new Vector2();
+    private bool input_isFiring = false;
 
     // Start is called before the first frame update
     void Start()
@@ -74,15 +77,12 @@ public class MechMovementController : MonoBehaviour
         if(!isAlive) {
             return;
         }
-        Vector2 targetLook = pilotLookCam.getLookRotation();
         // CurrLookRotation.x = Mathf.MoveTowardsAngle(CurrLookRotation.x, targetLook.x, lookSpeed*Time.deltaTime);
         // CurrLookRotation.y = Mathf.Clamp(Mathf.MoveTowardsAngle(CurrLookRotation.y, targetLook.y, lookSpeed*Time.deltaTime),-30f,30f);
         CurrLookRotation.x = Mathf.Lerp(CurrLookRotation.x, targetLook.x, 10f*Time.deltaTime);
         CurrLookRotation.y = Mathf.Clamp(Mathf.Lerp(CurrLookRotation.y, targetLook.y, 10f*Time.deltaTime),-30f,30f);
-        if(pilotLookCam.getIsPiloting()) {
-            if(Input.GetButton("Fire1")) {
-                tryFireGun();
-            }
+        if(input_isFiring) {
+            tryFireGun();
         }
         currTilt = Mathf.SmoothDamp(currTilt, (CurrVelocity.x/MoveSpeed)*(-1f)*tiltFactor, ref tiltVelocity, 0.2f);
         transform.localRotation = Quaternion.Euler(0f,CurrLookRotation.x,0f);
@@ -103,13 +103,7 @@ public class MechMovementController : MonoBehaviour
             }
         }
         else {
-            if(Input.GetButtonDown("Fire3") && canDash) {
-                setHeat(heat + dashHeat);
-                isDashing = true;
-                dashTimer = dashDuration;
-                dashVector = ((transform.right * Input.GetAxis("Horizontal")) + (transform.forward * Input.GetAxis("Vertical"))).normalized * dashSpeed;
-            }
-            CurrVelocity = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical")) * MoveSpeed;
+            CurrVelocity = new Vector3(currMoveInput.x, 0f, currMoveInput.y) * MoveSpeed;
             if(camAnimator) {
                 camAnimator.SetFloat("runSpeed", CurrVelocity.magnitude);
             }
@@ -117,13 +111,6 @@ public class MechMovementController : MonoBehaviour
             rb.AddForce(((transform.right * CurrVelocity.x) + (transform.forward * CurrVelocity.z) - rb.velocity)*accelerationFactor);
         }
 
-        if(Input.GetKeyDown("q")) {
-            isHeatVenting = !isHeatVenting;
-        }
-
-        if(Input.GetKeyDown("e")) {
-            isShielding = !isShielding;
-        }
         if(heat > (maxHeat - 0.5f) || isHeatVenting) {
             isShielding = false;
         }
@@ -152,10 +139,6 @@ public class MechMovementController : MonoBehaviour
         weaponOverheat = Mathf.Clamp(weaponOverheat-Time.deltaTime,0f,weaponOverheatMax);
     }
 
-    public float getLookY() {
-        return CurrLookRotation.y;
-    }
-
     public void setHeat(float newHeat) {
         heat = Mathf.Clamp(newHeat,0f,maxHeat);
     }
@@ -176,12 +159,8 @@ public class MechMovementController : MonoBehaviour
         }
         health -= dmg;
         if(health <= 0f) {
-            death();
+            isAlive = false;
         }
-    }
-
-    public void death() {
-        isAlive = false;
     }
 
     public float getCompassPercent() {
@@ -225,10 +204,52 @@ public class MechMovementController : MonoBehaviour
         currFireInterval -= Time.deltaTime;
         if(currFireInterval<=0f) {
             Instantiate(bulletPrefab, lookRoot.transform.position, lookRoot.transform.rotation);
-            pilotLookCam.addShake(1f,0.5f, new Vector3(1f,0f,0f));
+            if(pilotLookCam) {
+                pilotLookCam.addShake(1f,0.5f, new Vector3(1f,0f,0f));
+            }
             audioSource.PlayOneShot(cannonShot, 1f);
             currFireInterval += fireInterval;
             weaponOverheat += 0.5f;
         }
+    }
+
+    // Inputs for player/ AI control
+
+    public void setTargetLook(Vector2 newInput) {
+        targetLook = newInput;
+    }
+
+    public void setCurrMoveInput(Vector2 newInput) {
+        currMoveInput = newInput;
+    }
+
+    public void setIsFiring(bool newIsFiring) {
+        input_isFiring = newIsFiring;
+    }
+
+    public void setAttemptDash() {
+        if(!canDash) {
+            return;
+        }
+        setHeat(heat + dashHeat);
+        isDashing = true;
+        dashTimer = dashDuration;
+        dashVector = ((transform.right * currMoveInput.x) + (transform.forward * currMoveInput.y)).normalized * dashSpeed;
+    }
+
+    public void setIsVenting(bool inp) {
+        isHeatVenting = inp;
+    }
+
+    public void setIsShielding(bool inp) {
+        isShielding = inp;
+    }
+
+    public void setIsVenting() {
+        isHeatVenting = !isHeatVenting;
+    }
+
+    public void setIsShielding() {
+        isShielding = !isShielding;
     }
 }
