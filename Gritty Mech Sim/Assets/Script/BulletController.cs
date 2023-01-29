@@ -8,6 +8,7 @@ public class BulletController : MonoBehaviour
     private float SpeedInMetersPerSecond = 1200f;
     private float MaxDistance = 2400f;
     private float totalDistTraveled = 0f;
+    private GameObject attacker;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,9 +20,14 @@ public class BulletController : MonoBehaviour
     {
         float forwardDistance = SpeedInMetersPerSecond * Time.deltaTime;
         RaycastHit hit;
-        if(Physics.Raycast(transform.position,transform.forward, out hit, forwardDistance)) {
+        if(Physics.Raycast(transform.position,transform.forward, out hit, forwardDistance) && hit.collider.gameObject != gameObject) {
             GameObject target = hit.collider.gameObject;
-            target.SendMessage("receiveDamage", Damage, SendMessageOptions.DontRequireReceiver);
+            if(target.GetComponent<MechMovementController>()) {
+                target.GetComponent<MechMovementController>().onReceiveDamage(Damage);
+            }
+            if(target.GetComponent<AIMechController>()) {
+                target.GetComponent<AIMechController>().onReceiveDamage(Damage,attacker);
+            }
             Destroy(gameObject);
         }
         else if(totalDistTraveled >= MaxDistance) {
@@ -33,7 +39,11 @@ public class BulletController : MonoBehaviour
         }
     }
 
-    public void SetDamage(float val) {
+    public void setDamage(float val) {
         Damage = val;
+    }
+
+    public void setAttacker(GameObject atkr) {
+        attacker = atkr;
     }
 }

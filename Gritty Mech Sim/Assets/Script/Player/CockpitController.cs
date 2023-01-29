@@ -58,6 +58,8 @@ public class CockpitController : MonoBehaviour
                 }
             }
             pilotFreelookCrosshairs.enabled = true;
+            mechMoveController.setCurrMoveInput();
+            mechMoveController.setIsFiring();
         } else {
             targetFov = pilotingFov;
             pilotFreelookCrosshairs.enabled = false;
@@ -66,7 +68,23 @@ public class CockpitController : MonoBehaviour
             CurrLookRotation.y = Mathf.Clamp(CurrLookRotation.y + (Input.GetAxis("Mouse Y") * LookSpeed),-80f,80f);
             freelookRotation = new Vector2(Mathf.Lerp(freelookRotation.x,0f,10f * Time.deltaTime), Mathf.Lerp(freelookRotation.y,0f,10f * Time.deltaTime));
 
+            mechMoveController.setTargetLook(CurrLookRotation);
+
+            mechMoveController.setCurrMoveInput(new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")));
+
             mechMoveController.setIsFiring(Input.GetButton("Fire1"));
+
+            if(Input.GetButtonDown("Fire3")) {
+                mechMoveController.setAttemptDash();
+            }
+
+            if(Input.GetKeyDown("q")) {
+                mechMoveController.setIsVenting();
+            }
+
+            if(Input.GetKeyDown("e")) {
+                mechMoveController.setIsShielding();
+            }
         }
         cameraTransform.localRotation = Quaternion.Euler(freelookRotation.y + camshakeRotOffset.x, freelookRotation.x + camshakeRotOffset.y, 0f);
         camRootOuter.localRotation = Quaternion.Euler(0f,CurrLookRotation.x,0f);
@@ -76,24 +94,6 @@ public class CockpitController : MonoBehaviour
 
         if(Input.GetKeyDown("r")) {
             Application.LoadLevel(Application.loadedLevel);
-        }
-
-        mechMoveController.setTargetLook(CurrLookRotation);
-
-        mechMoveController.setCurrMoveInput(new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")));
-
-        mechMoveController.setIsFiring(Input.GetButton("Fire1"));
-
-        if(Input.GetButtonDown("Fire3")) {
-            mechMoveController.setAttemptDash();
-        }
-
-        if(Input.GetKeyDown("q")) {
-            mechMoveController.setIsVenting();
-        }
-
-        if(Input.GetKeyDown("e")) {
-            mechMoveController.setIsShielding();
         }
 
         // if(Input.GetKeyDown("t")) {

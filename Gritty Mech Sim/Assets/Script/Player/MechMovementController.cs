@@ -87,7 +87,9 @@ public class MechMovementController : MonoBehaviour
         currTilt = Mathf.SmoothDamp(currTilt, (CurrVelocity.x/MoveSpeed)*(-1f)*tiltFactor, ref tiltVelocity, 0.2f);
         transform.localRotation = Quaternion.Euler(0f,CurrLookRotation.x,0f);
         lookRoot.transform.localRotation = Quaternion.Euler(-1f * CurrLookRotation.y, 0f, currTilt);
-        cockpitRotationRoot.localRotation = Quaternion.Euler(-1f * CurrLookRotation.y,CurrLookRotation.x,0f);
+        if(cockpitRotationRoot) {
+            cockpitRotationRoot.localRotation = Quaternion.Euler(-1f * CurrLookRotation.y,CurrLookRotation.x,0f);
+        }
 
         // Disable systems based on max heat
         canDash = heat < (maxHeat - dashHeat);
@@ -108,7 +110,7 @@ public class MechMovementController : MonoBehaviour
                 camAnimator.SetFloat("runSpeed", CurrVelocity.magnitude);
             }
             // rb.velocity = (transform.right * CurrVelocity.x) + (transform.forward * CurrVelocity.z);
-            rb.AddForce(((transform.right * CurrVelocity.x) + (transform.forward * CurrVelocity.z) - rb.velocity)*accelerationFactor);
+            rb.AddForce(((transform.right * (CurrVelocity.x)) + (transform.forward * (CurrVelocity.z))-new Vector3(rb.velocity.x,40f,rb.velocity.z))*accelerationFactor);
         }
 
         if(heat > (maxHeat - 0.5f) || isHeatVenting) {
@@ -143,7 +145,7 @@ public class MechMovementController : MonoBehaviour
         heat = Mathf.Clamp(newHeat,0f,maxHeat);
     }
 
-    public void receiveDamage(float dmg) {
+    public void onReceiveDamage(float dmg) {
         if(isShielding) {
             if(currShield > dmg) {
                 currShield -= dmg;
@@ -203,11 +205,14 @@ public class MechMovementController : MonoBehaviour
         }
         currFireInterval -= Time.deltaTime;
         if(currFireInterval<=0f) {
-            Instantiate(bulletPrefab, lookRoot.transform.position, lookRoot.transform.rotation);
+            GameObject newBullet = Instantiate(bulletPrefab, lookRoot.transform.position, lookRoot.transform.rotation);
+            newBullet.GetComponent<BulletController>().setAttacker(gameObject);
             if(pilotLookCam) {
                 pilotLookCam.addShake(1f,0.5f, new Vector3(1f,0f,0f));
             }
-            audioSource.PlayOneShot(cannonShot, 1f);
+            if(cannonShot) {
+                audioSource.PlayOneShot(cannonShot, 1f);
+            }
             currFireInterval += fireInterval;
             weaponOverheat += 0.5f;
         }
@@ -219,11 +224,11 @@ public class MechMovementController : MonoBehaviour
         targetLook = newInput;
     }
 
-    public void setCurrMoveInput(Vector2 newInput) {
+    public void setCurrMoveInput(Vector2 newInput = new Vector2()) {
         currMoveInput = newInput;
     }
 
-    public void setIsFiring(bool newIsFiring) {
+    public void setIsFiring(bool newIsFiring = false) {
         input_isFiring = newIsFiring;
     }
 
