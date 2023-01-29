@@ -18,24 +18,56 @@ public class BulletController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // float forwardDistance = SpeedInMetersPerSecond * Time.deltaTime;
+        // RaycastHit hit;
+        // if(Physics.Raycast(transform.position,transform.forward, out hit, forwardDistance)) {
+        //     GameObject target = hit.collider.gameObject;
+        //     if(target.GetComponent<MechMovementController>() && hit.collider.gameObject != gameObject) {
+        //         target.GetComponent<MechMovementController>().onReceiveDamage(Damage);
+        //     }
+        //     if(target.GetComponent<AIMechController>()) {
+        //         target.GetComponent<AIMechController>().onReceiveDamage(Damage,attacker);
+        //     }
+        //     Destroy(gameObject);
+        // }
+        // if(totalDistTraveled >= MaxDistance) {
+        //     Destroy(gameObject);
+        // }
+        // else {
+        //     transform.Translate(Vector3.forward * forwardDistance);
+        //     totalDistTraveled += forwardDistance;
+        // }
         float forwardDistance = SpeedInMetersPerSecond * Time.deltaTime;
         RaycastHit hit;
-        if(Physics.Raycast(transform.position,transform.forward, out hit, forwardDistance) && hit.collider.gameObject != gameObject) {
-            GameObject target = hit.collider.gameObject;
-            if(target.GetComponent<MechMovementController>()) {
-                target.GetComponent<MechMovementController>().onReceiveDamage(Damage);
+        if(!Physics.Raycast(transform.position,transform.forward, out hit, forwardDistance)) {
+            if(totalDistTraveled >= MaxDistance) {
+                Destroy(gameObject);
             }
-            if(target.GetComponent<AIMechController>()) {
-                target.GetComponent<AIMechController>().onReceiveDamage(Damage,attacker);
+            else {
+                transform.Translate(Vector3.forward * forwardDistance);
+                totalDistTraveled += forwardDistance;
             }
-            Destroy(gameObject);
-        }
-        else if(totalDistTraveled >= MaxDistance) {
-            Destroy(gameObject);
         }
         else {
-            transform.Translate(Vector3.forward * forwardDistance);
-            totalDistTraveled += forwardDistance;
+            GameObject target = hit.collider.gameObject;
+            if(target == attacker) {
+                if(totalDistTraveled >= MaxDistance) {
+                    Destroy(gameObject);
+                }
+                else {
+                    transform.Translate(Vector3.forward * forwardDistance);
+                    totalDistTraveled += forwardDistance;
+                }
+            }
+            else {
+                if(target.GetComponent<MechMovementController>()) {
+                    target.GetComponent<MechMovementController>().onReceiveDamage(Damage);
+                }
+                if(target.GetComponent<AIMechController>()) {
+                    target.GetComponent<AIMechController>().onReceiveDamage(Damage,attacker);
+                }
+                Destroy(gameObject);
+            }
         }
     }
 
