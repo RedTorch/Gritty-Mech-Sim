@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 public class AIMechController : MonoBehaviour
 {
@@ -14,10 +15,11 @@ public class AIMechController : MonoBehaviour
     private float mostRecentAttackerDamage;
 
     private float weight_hasLineOfSight = 10f;
-    private float weight_closerProximity = 1f; //in meters
+    private float weight_closerProximity = 100f; // by 10/(distance)
     private float weight_isCurrTarget = 5f;
     private float weight_isMostRecentAttacker = 5f;
     private float weight_isMostRecentAttackerByDamage = 0.1f;
+    public Dictionary<Vector3, string> targetingTagsToDisplay = new Dictionary<Vector3, string>();
 
     private float attackRange = 200f;
 
@@ -30,8 +32,11 @@ public class AIMechController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        targetingTagsToDisplay.Clear();
+        evalNewTarget();
         if(currTarget) {
             // destination = suggestPosition(currTarget.transform.position);
+            Debug.DrawLine(transform.position,currTarget.transform.position,Color.red);
         }
         else {
             // defend the area
@@ -53,12 +58,21 @@ public class AIMechController : MonoBehaviour
         GameObject newTarget = null;
         foreach(GameObject target in GameObject.FindGameObjectsWithTag(targetedFaction)) {
             float score = 0f;
+            string scoreDebugString = $"Object: {target.name}";
 
-            if(!Physics.Linecast(transform.position, target.transform.position)) {
+            float dist = Vector3.Distance(transform.position, target.transform.position);
+            bool hasLoS = true;
+            RaycastHit[] rcHits = Physics.RaycastAll(transform.position,target.transform.position,dist);
+            foreach(RaycastHit hitObj in rcHits) {
+                if(hitObj.collider.gameObject != gameObject && hitObj.collider.gameObject != target) {
+                    hasLoS = false;
+                }
+            }
+
+            if(hasLoS) {
                 score += weight_hasLineOfSight;
             }
-            float dist = Vector3.Distance(transform.position, target.transform.position);
-            score -=  dist * weight_closerProximity;
+            score +=  (10f/dist) * weight_closerProximity;
             if(target == currTarget) {
                 score += weight_isCurrTarget;
             }
@@ -66,12 +80,18 @@ public class AIMechController : MonoBehaviour
                 score += weight_isMostRecentAttacker;
                 score += mostRecentAttackerDamage * weight_isMostRecentAttackerByDamage;
             }
+            scoreDebugString += $"\nLoS: {hasLoS}-{weight_hasLineOfSight}\nProximity: {(10f/dist) * weight_closerProximity}\nIs Current Target: {weight_isCurrTarget}\nIs Most Recent Attacker: {weight_isMostRecentAttacker}\nIs Most Recent Attacker Damage: {mostRecentAttackerDamage * weight_isMostRecentAttackerByDamage}\nScore:{score}";
+
+            targetingTagsToDisplay.Add(target.transform.position,scoreDebugString);
+
             // other factors below...
 
             if(score > highestScore) {
                 newTarget = target;
                 highestScore = score;
             }
+
+            print(scoreDebugString);
         }
         currTarget = newTarget;
     }
@@ -83,5 +103,16 @@ public class AIMechController : MonoBehaviour
 
     void NavigateToTarget() {
         //
+    }
+}
+
+[CustomEditor(typeof(AIMechController))]
+public class AIMechExaminer : Editor
+{
+    void OnSceneGUI() {
+        var t = target as AIMechController;
+        foreach(KeyValuePair<Vector3, string> kvp in t.targetingTagsToDisplay) {
+            Handles.Label(kvp.Key, kvp.Value);
+        }
     }
 }
