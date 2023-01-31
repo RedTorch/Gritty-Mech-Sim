@@ -14,7 +14,7 @@ public class AIMechController : MonoBehaviour
     private GameObject mostRecentAttacker;
     private float mostRecentAttackerDamage;
 
-    private float weight_hasLineOfSight = 10f;
+    private float weight_hasLineOfSight = 20f;
     private float weight_closerProximity = 100f; // by 10/(distance)
     private float weight_isCurrTarget = 5f;
     private float weight_isMostRecentAttacker = 5f;
@@ -36,7 +36,7 @@ public class AIMechController : MonoBehaviour
         evalNewTarget();
         if(currTarget) {
             // destination = suggestPosition(currTarget.transform.position);
-            Debug.DrawLine(transform.position,currTarget.transform.position,Color.red);
+            Debug.DrawLine(transform.position,currTarget.transform.position,Color.blue);
         }
         else {
             // defend the area
@@ -62,25 +62,29 @@ public class AIMechController : MonoBehaviour
 
             float dist = Vector3.Distance(transform.position, target.transform.position);
             bool hasLoS = true;
-            RaycastHit[] rcHits = Physics.RaycastAll(transform.position,target.transform.position,dist);
+            RaycastHit[] rcHits = Physics.RaycastAll(new Ray(transform.position,target.transform.position-transform.position),dist);
             foreach(RaycastHit hitObj in rcHits) {
-                if(hitObj.collider.gameObject != gameObject && hitObj.collider.gameObject != target) {
+                if(hitObj.collider.transform.root != gameObject.transform.root && hitObj.collider.transform.root != target.transform.root) {
                     hasLoS = false;
                 }
             }
 
             if(hasLoS) {
                 score += weight_hasLineOfSight;
+                scoreDebugString += $"\nLoS: {weight_hasLineOfSight}";
             }
             score +=  (10f/dist) * weight_closerProximity;
+            scoreDebugString += $"\nProximity: {Mathf.Floor((10f/dist) * weight_closerProximity)}";
             if(target == currTarget) {
                 score += weight_isCurrTarget;
+                scoreDebugString += $"\nIs Current Target: {weight_isCurrTarget}";
             }
             if(target == mostRecentAttacker) {
                 score += weight_isMostRecentAttacker;
                 score += mostRecentAttackerDamage * weight_isMostRecentAttackerByDamage;
+                scoreDebugString += $"\nIs Most Recent Attacker: {weight_isMostRecentAttacker}\nIs Most Recent Attacker Damage: {mostRecentAttackerDamage * weight_isMostRecentAttackerByDamage}";
             }
-            scoreDebugString += $"\nLoS: {hasLoS}-{weight_hasLineOfSight}\nProximity: {(10f/dist) * weight_closerProximity}\nIs Current Target: {weight_isCurrTarget}\nIs Most Recent Attacker: {weight_isMostRecentAttacker}\nIs Most Recent Attacker Damage: {mostRecentAttackerDamage * weight_isMostRecentAttackerByDamage}\nScore:{score}";
+            scoreDebugString += $"\nScore:{Mathf.Floor(score)}";
 
             targetingTagsToDisplay.Add(target.transform.position,scoreDebugString);
 
