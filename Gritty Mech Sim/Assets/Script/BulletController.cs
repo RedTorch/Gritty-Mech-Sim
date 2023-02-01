@@ -9,6 +9,8 @@ public class BulletController : MonoBehaviour
     private float MaxDistance = 2400f;
     private float totalDistTraveled = 0f;
     private GameObject attacker;
+
+    [SerializeField] private GameObject HitPsPrefab;
     // Start is called before the first frame update
     void Start()
     {
@@ -66,6 +68,11 @@ public class BulletController : MonoBehaviour
                 if(target.GetComponent<AIMechController>()) {
                     target.GetComponent<AIMechController>().onReceiveDamage(Damage,attacker);
                 }
+                if(target.GetComponent<DamageReceiver>()) {
+                    target.GetComponent<DamageReceiver>().onReceiveDamage(Damage);
+                }
+                GameObject ps = Instantiate(HitPsPrefab, hit.point, Quaternion.identity);
+                ps.GetComponent<HitPS>().setMaterial(target);
                 Destroy(gameObject);
             }
         }

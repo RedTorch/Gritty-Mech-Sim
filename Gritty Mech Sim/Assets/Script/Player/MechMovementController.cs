@@ -257,4 +257,8 @@ public class MechMovementController : MonoBehaviour
     public void setIsShielding() {
         isShielding = !isShielding;
     }
+
+    public Transform getLookRoot() {
+        return lookRoot.transform;
+    }
 }
