@@ -162,6 +162,7 @@ public class MechMovementController : MonoBehaviour
         health -= dmg;
         if(health <= 0f) {
             isAlive = false;
+            Destroy(gameObject);
         }
     }
 

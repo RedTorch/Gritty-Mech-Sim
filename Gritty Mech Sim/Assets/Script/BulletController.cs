@@ -5,12 +5,13 @@ using UnityEngine;
 public class BulletController : MonoBehaviour
 {
     private float Damage = 15f;
-    private float SpeedInMetersPerSecond = 1200f;
-    private float MaxDistance = 2400f;
+    private float SpeedInMetersPerSecond = 100f; // 1200f is a realistic tank shell speed
+    private float MaxDistance = 1000f;
     private float totalDistTraveled = 0f;
     private GameObject attacker;
 
     [SerializeField] private GameObject HitPsPrefab;
+    [SerializeField] private GameObject debugCube;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,60 +21,39 @@ public class BulletController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // float forwardDistance = SpeedInMetersPerSecond * Time.deltaTime;
-        // RaycastHit hit;
-        // if(Physics.Raycast(transform.position,transform.forward, out hit, forwardDistance)) {
-        //     GameObject target = hit.collider.gameObject;
-        //     if(target.GetComponent<MechMovementController>() && hit.collider.gameObject != gameObject) {
-        //         target.GetComponent<MechMovementController>().onReceiveDamage(Damage);
-        //     }
-        //     if(target.GetComponent<AIMechController>()) {
-        //         target.GetComponent<AIMechController>().onReceiveDamage(Damage,attacker);
-        //     }
-        //     Destroy(gameObject);
-        // }
-        // if(totalDistTraveled >= MaxDistance) {
-        //     Destroy(gameObject);
-        // }
-        // else {
-        //     transform.Translate(Vector3.forward * forwardDistance);
-        //     totalDistTraveled += forwardDistance;
-        // }
         float forwardDistance = SpeedInMetersPerSecond * Time.deltaTime;
         RaycastHit hit;
-        if(!Physics.Raycast(transform.position,transform.forward, out hit, forwardDistance)) {
+        bool isHit = Physics.Raycast(transform.position,transform.forward, out hit, forwardDistance);
+        Debug.DrawRay(transform.position,transform.forward*forwardDistance); // debugging raycast...
+        GameObject target = null;
+        if(isHit) {target = hit.collider.gameObject;}
+
+        // if(isHit && target.transform.root != transform.root) {
+        if(isHit && target != attacker) {
+            GameObject cube = Instantiate(debugCube,hit.point,Quaternion.identity);
+            Destroy(cube,1f);
+            if(target.GetComponent<MechMovementController>()) {
+                target.GetComponent<MechMovementController>().onReceiveDamage(Damage);
+            }
+            if(target.GetComponent<AIMechController>()) {
+                target.GetComponent<AIMechController>().onReceiveDamage(Damage,attacker);
+            }
+            if(target.GetComponent<DamageReceiver>()) {
+                target.GetComponent<DamageReceiver>().onReceiveDamage(Damage);
+            }
+            GameObject ps = Instantiate(HitPsPrefab, hit.point, Quaternion.identity);
+            ps.GetComponent<HitPS>().setMaterial(target);
+            Destroy(gameObject);
+        }
+        else {
             if(totalDistTraveled >= MaxDistance) {
+                GameObject cube = Instantiate(debugCube,hit.point,Quaternion.identity);
+                Destroy(cube,1f);
                 Destroy(gameObject);
             }
             else {
                 transform.Translate(Vector3.forward * forwardDistance);
                 totalDistTraveled += forwardDistance;
-            }
-        }
-        else {
-            GameObject target = hit.collider.gameObject;
-            if(target == attacker) {
-                if(totalDistTraveled >= MaxDistance) {
-                    Destroy(gameObject);
-                }
-                else {
-                    transform.Translate(Vector3.forward * forwardDistance);
-                    totalDistTraveled += forwardDistance;
-                }
-            }
-            else {
-                if(target.GetComponent<MechMovementController>()) {
-                    target.GetComponent<MechMovementController>().onReceiveDamage(Damage);
-                }
-                if(target.GetComponent<AIMechController>()) {
-                    target.GetComponent<AIMechController>().onReceiveDamage(Damage,attacker);
-                }
-                if(target.GetComponent<DamageReceiver>()) {
-                    target.GetComponent<DamageReceiver>().onReceiveDamage(Damage);
-                }
-                GameObject ps = Instantiate(HitPsPrefab, hit.point, Quaternion.identity);
-                ps.GetComponent<HitPS>().setMaterial(target);
-                Destroy(gameObject);
             }
         }
     }
@@ -84,5 +64,9 @@ public class BulletController : MonoBehaviour
 
     public void setAttacker(GameObject atkr) {
         attacker = atkr;
+    }
+
+    public float getMaxDistance() {
+        return MaxDistance;
     }
 }

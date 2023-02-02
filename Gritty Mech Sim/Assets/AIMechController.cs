@@ -6,6 +6,7 @@ using UnityEngine.AI;
 
 public class AIMechController : MonoBehaviour
 {
+    [SerializeField] private bool isFriendly = false;
     private bool isCommander = true;
     private string faction = "Enemy";
     private string targetedFaction = "Player";
@@ -35,6 +36,10 @@ public class AIMechController : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         camt = mechMoveCon.getLookRoot();
+        if(isFriendly) {
+            faction = "Player";
+            targetedFaction = "Enemy";
+        }
     }
 
     // Update is called once per frame
@@ -71,10 +76,14 @@ public class AIMechController : MonoBehaviour
         return transform.position;
     }
 
+    private GameObject[] getValidTargets() {
+        return GameObject.FindGameObjectsWithTag(targetedFaction);
+    }
+
     void evalNewTarget() {
         float highestScore = -10000f; //minimum score; if no targets above this score are found, they will be ignored
         GameObject newTarget = null;
-        foreach(GameObject target in GameObject.FindGameObjectsWithTag(targetedFaction)) {
+        foreach(GameObject target in getValidTargets()) {
             float score = 0f;
             string scoreDebugString = $"Object: {target.name}";
 
