@@ -21,7 +21,7 @@ public class BulletController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float forwardDistance = SpeedInMetersPerSecond * Time.deltaTime;
+        float forwardDistance = SpeedInMetersPerSecond * Time.deltaTime * 1f;
         RaycastHit hit;
         if(Physics.Raycast(transform.position,transform.forward, out hit, forwardDistance)) {
             print($"HIT: {gameObject.name} ----- {hit.collider.gameObject.name}");

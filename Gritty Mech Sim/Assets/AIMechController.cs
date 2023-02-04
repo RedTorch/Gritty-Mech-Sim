@@ -31,6 +31,8 @@ public class AIMechController : MonoBehaviour
 
     private Transform camt;
 
+    private bool isShowLines = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -50,7 +52,7 @@ public class AIMechController : MonoBehaviour
         mechMoveCon.setIsFiring(false);
         if(currTarget) {
             // destination = suggestPosition(currTarget.transform.position);
-            Debug.DrawLine(transform.position,currTarget.transform.position,Color.blue);
+            if(isShowLines) { Debug.DrawLine(transform.position,currTarget.transform.position,Color.blue); }
             if(!hasLoS(currTarget)) {
                 agent.destination = currTarget.transform.position;
                 turnToFacePosition(currTarget.transform.position);
