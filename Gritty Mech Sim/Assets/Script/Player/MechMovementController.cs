@@ -61,6 +61,8 @@ public class MechMovementController : MonoBehaviour
     private Vector2 currMoveInput = new Vector2();
     private bool input_isFiring = false;
 
+    [SerializeField] private GameObject destroyedPsPrefab;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -162,6 +164,7 @@ public class MechMovementController : MonoBehaviour
         health -= dmg;
         if(health <= 0f) {
             isAlive = false;
+            makeShatterMesh();
             Destroy(gameObject);
         }
     }
@@ -207,7 +210,7 @@ public class MechMovementController : MonoBehaviour
         currFireInterval -= Time.deltaTime;
         if(currFireInterval<=0f) {
             GameObject newBullet = Instantiate(bulletPrefab, lookRoot.transform.position, lookRoot.transform.rotation);
-            newBullet.GetComponent<BulletController>().setAttacker(gameObject);
+            newBullet.GetComponent<BulletController>().setFiredBy(gameObject);
             if(pilotLookCam) {
                 pilotLookCam.addShake(1f,0.5f, new Vector3(1f,0f,0f));
             }
@@ -261,5 +264,15 @@ public class MechMovementController : MonoBehaviour
 
     public Transform getLookRoot() {
         return lookRoot.transform;
+    }
+
+    public void makeShatterMesh() {
+        if(!destroyedPsPrefab) {
+            return;
+        }
+        GameObject shattered = Instantiate(destroyedPsPrefab,transform.position,transform.rotation);
+        shattered.transform.localScale = transform.localScale;
+        shattered.GetComponent<ParticleSystemRenderer>().material = GetComponent<Renderer>().material;
+        Destroy(shattered,5f);
     }
 }

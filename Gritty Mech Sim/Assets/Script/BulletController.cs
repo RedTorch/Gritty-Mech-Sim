@@ -8,14 +8,14 @@ public class BulletController : MonoBehaviour
     private float SpeedInMetersPerSecond = 100f; // 1200f is a realistic tank shell speed
     private float MaxDistance = 1000f;
     private float totalDistTraveled = 0f;
-    private GameObject attacker;
+    private GameObject firedBy;
 
     [SerializeField] private GameObject HitPsPrefab;
     [SerializeField] private GameObject debugCube;
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -23,20 +23,21 @@ public class BulletController : MonoBehaviour
     {
         float forwardDistance = SpeedInMetersPerSecond * Time.deltaTime;
         RaycastHit hit;
+        if(Physics.Raycast(transform.position,transform.forward, out hit, forwardDistance)) {
+            print($"HIT: {gameObject.name} ----- {hit.collider.gameObject.name}");
+        }
         bool isHit = Physics.Raycast(transform.position,transform.forward, out hit, forwardDistance);
         Debug.DrawRay(transform.position,transform.forward*forwardDistance); // debugging raycast...
-        GameObject target = null;
-        if(isHit) {target = hit.collider.gameObject;}
-
         // if(isHit && target.transform.root != transform.root) {
-        if(isHit && target != attacker) {
+        if(isHit && hit.collider.gameObject != firedBy) {
+            GameObject target = hit.collider.gameObject;
             GameObject cube = Instantiate(debugCube,hit.point,Quaternion.identity);
             Destroy(cube,1f);
             if(target.GetComponent<MechMovementController>()) {
                 target.GetComponent<MechMovementController>().onReceiveDamage(Damage);
             }
             if(target.GetComponent<AIMechController>()) {
-                target.GetComponent<AIMechController>().onReceiveDamage(Damage,attacker);
+                target.GetComponent<AIMechController>().onReceiveDamage(Damage,firedBy);
             }
             if(target.GetComponent<DamageReceiver>()) {
                 target.GetComponent<DamageReceiver>().onReceiveDamage(Damage);
@@ -47,7 +48,7 @@ public class BulletController : MonoBehaviour
         }
         else {
             if(totalDistTraveled >= MaxDistance) {
-                GameObject cube = Instantiate(debugCube,hit.point,Quaternion.identity);
+                GameObject cube = Instantiate(debugCube,transform.position,Quaternion.identity);
                 Destroy(cube,1f);
                 Destroy(gameObject);
             }
@@ -62,8 +63,8 @@ public class BulletController : MonoBehaviour
         Damage = val;
     }
 
-    public void setAttacker(GameObject atkr) {
-        attacker = atkr;
+    public void setFiredBy(GameObject atkr) {
+        firedBy = atkr;
     }
 
     public float getMaxDistance() {

@@ -2147,6 +2147,7 @@ MonoBehaviour:
   bulletPrefab: {fileID: 1104719392483640061, guid: 44629e6f9f8f248c4847dad47759be9f,
     type: 3}
   cannonShot: {fileID: 8300000, guid: 0bbda77c20b0f42ba8ef4eb4322457ce, type: 3}
+  destroyedPsPrefab: {fileID: 0}
 --- !u!136 &242113747
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2633,7 +2634,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!195 &363275017
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -2825,6 +2826,8 @@ MonoBehaviour:
   bulletPrefab: {fileID: 1104719392483640061, guid: 44629e6f9f8f248c4847dad47759be9f,
     type: 3}
   cannonShot: {fileID: 8300000, guid: 0bbda77c20b0f42ba8ef4eb4322457ce, type: 3}
+  destroyedPsPrefab: {fileID: 7891756223240747604, guid: b98284a7d69a04445a0031d026457993,
+    type: 3}
 --- !u!136 &363275022
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -4878,6 +4881,8 @@ MonoBehaviour:
   bulletPrefab: {fileID: 1104719392483640061, guid: 44629e6f9f8f248c4847dad47759be9f,
     type: 3}
   cannonShot: {fileID: 8300000, guid: 0bbda77c20b0f42ba8ef4eb4322457ce, type: 3}
+  destroyedPsPrefab: {fileID: 7891756223240747604, guid: b98284a7d69a04445a0031d026457993,
+    type: 3}
 --- !u!136 &696216444
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -5077,7 +5082,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!195 &712430099
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -5269,6 +5274,8 @@ MonoBehaviour:
   bulletPrefab: {fileID: 1104719392483640061, guid: 44629e6f9f8f248c4847dad47759be9f,
     type: 3}
   cannonShot: {fileID: 8300000, guid: 0bbda77c20b0f42ba8ef4eb4322457ce, type: 3}
+  destroyedPsPrefab: {fileID: 7891756223240747604, guid: b98284a7d69a04445a0031d026457993,
+    type: 3}
 --- !u!136 &712430104
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -7766,7 +7773,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!195 &1082851908
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -7958,6 +7965,8 @@ MonoBehaviour:
   bulletPrefab: {fileID: 1104719392483640061, guid: 44629e6f9f8f248c4847dad47759be9f,
     type: 3}
   cannonShot: {fileID: 8300000, guid: 0bbda77c20b0f42ba8ef4eb4322457ce, type: 3}
+  destroyedPsPrefab: {fileID: 7891756223240747604, guid: b98284a7d69a04445a0031d026457993,
+    type: 3}
 --- !u!136 &1082851913
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -9228,6 +9237,8 @@ MonoBehaviour:
   bulletPrefab: {fileID: 1104719392483640061, guid: 44629e6f9f8f248c4847dad47759be9f,
     type: 3}
   cannonShot: {fileID: 8300000, guid: 0bbda77c20b0f42ba8ef4eb4322457ce, type: 3}
+  destroyedPsPrefab: {fileID: 7891756223240747604, guid: b98284a7d69a04445a0031d026457993,
+    type: 3}
 --- !u!136 &1386743259
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -12679,7 +12690,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!195 &1979014959
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -12871,6 +12882,8 @@ MonoBehaviour:
   bulletPrefab: {fileID: 1104719392483640061, guid: 44629e6f9f8f248c4847dad47759be9f,
     type: 3}
   cannonShot: {fileID: 8300000, guid: 0bbda77c20b0f42ba8ef4eb4322457ce, type: 3}
+  destroyedPsPrefab: {fileID: 7891756223240747604, guid: b98284a7d69a04445a0031d026457993,
+    type: 3}
 --- !u!136 &1979014964
 CapsuleCollider:
   m_ObjectHideFlags: 0
