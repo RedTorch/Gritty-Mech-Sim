@@ -125,12 +125,10 @@ public class CockpitController : MonoBehaviour
         currShakeElapseFactor = 1f / duration;
         singleShakeTime = newshaketime;
         camshakeRotGoal = (direction.normalized + new Vector3(Random.Range(-.25f,.25f),Random.Range(-.25f,.25f),0f)).normalized * (intensity * screenshakeAnimationCurve.Evaluate(currShakePercent));
-        print("activating camshake");
     }
 
     public void simulateCurrentShake() {
         if(camshakeRotOffset == camshakeRotGoal) {
-            print("resetting camrot goal");
             camshakeRotGoal = ((camshakeRotGoal * -1f).normalized + new Vector3(Random.Range(-.25f,.25f),Random.Range(-.25f,.25f),0f)).normalized * (intensity * screenshakeAnimationCurve.Evaluate(currShakePercent));
             camSpeedByFrequency = screenshakeAnimationCurve.Evaluate(currShakePercent)*300f;
         }
@@ -140,7 +138,6 @@ public class CockpitController : MonoBehaviour
             isShaking = false;
             camshakeRotOffset = new Vector3(0f,0f,0f);
             camshakeRotGoal = new Vector3(0f,0f,0f);
-            print("camshake quitting");
         }
     }
 

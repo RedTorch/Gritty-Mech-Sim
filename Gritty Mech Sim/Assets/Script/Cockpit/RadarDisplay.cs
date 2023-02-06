@@ -28,6 +28,9 @@ public class RadarDisplay : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(!mechPos) {
+            return;
+        }
         for(int i = 0; i < enemyLocs.Length; i++) {
             // print("distance = " + Vector3.Distance(enemyLocs[i].transform.position, mechPos.position) + " and enemyLocs[i] == null is " + (enemyLocs == null));
             if(enemyLocs[i] != null && Vector3.Distance(enemyLocs[i].transform.position, mechPos.position) <= detectionDistance) {

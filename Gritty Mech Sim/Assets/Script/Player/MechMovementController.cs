@@ -11,7 +11,8 @@ public class MechMovementController : MonoBehaviour
     private float accelerationFactor = 5f;
     private Vector2 CurrLookRotation = new Vector2(0f,0f);
     private Rigidbody rb;
-    [SerializeField] private GameObject lookRoot;
+    [SerializeField] private Transform lookRoot;
+    [SerializeField] private Transform gunRoot;
 
     private bool isDashing = false;
     private float dashTimer = 0f;
@@ -88,7 +89,7 @@ public class MechMovementController : MonoBehaviour
         }
         currTilt = Mathf.SmoothDamp(currTilt, (CurrVelocity.x/MoveSpeed)*(-1f)*tiltFactor, ref tiltVelocity, 0.2f);
         transform.localRotation = Quaternion.Euler(0f,CurrLookRotation.x,0f);
-        lookRoot.transform.localRotation = Quaternion.Euler(-1f * CurrLookRotation.y, 0f, currTilt);
+        lookRoot.localRotation = Quaternion.Euler(-1f * CurrLookRotation.y, 0f, currTilt);
         if(cockpitRotationRoot) {
             cockpitRotationRoot.localRotation = Quaternion.Euler(-1f * CurrLookRotation.y,CurrLookRotation.x,0f);
         }
@@ -111,11 +112,11 @@ public class MechMovementController : MonoBehaviour
             if(camAnimator) {
                 camAnimator.SetFloat("runSpeed", CurrVelocity.magnitude);
             }
-            // rb.velocity = (transform.right * CurrVelocity.x) + (transform.forward * CurrVelocity.z);
-            rb.AddForce(((transform.right * (CurrVelocity.x)) + (transform.forward * (CurrVelocity.z))-new Vector3(rb.velocity.x,40f,rb.velocity.z))*accelerationFactor);
+            rb.velocity = (transform.right * CurrVelocity.x) + (transform.forward * CurrVelocity.z) + (transform.up * (rb.velocity.y-5f));
+            // rb.AddForce(((transform.right * (CurrVelocity.x)) + (transform.forward * (CurrVelocity.z))-new Vector3(rb.velocity.x,40f,rb.velocity.z))*accelerationFactor);
         }
 
-        if(heat > (maxHeat - 0.5f) || isHeatVenting) {
+        if(heat > (maxHeat - 0.5f)) {
             isShielding = false;
         }
 
@@ -147,11 +148,13 @@ public class MechMovementController : MonoBehaviour
         heat = Mathf.Clamp(newHeat,0f,maxHeat);
     }
 
-    public void onReceiveDamage(float dmg) {
+    // Receives damage; called by BulletController or other damage sources
+    // if 
+    public bool onReceiveDamage(float dmg) {
         if(isShielding) {
             if(currShield > dmg) {
                 currShield -= dmg;
-                return;
+                return true;
             }
             else {
                 dmg -= currShield;
@@ -166,7 +169,9 @@ public class MechMovementController : MonoBehaviour
             isAlive = false;
             makeShatterMesh();
             Destroy(gameObject);
+            return true;
         }
+        return false;
     }
 
     public float getCompassPercent() {
@@ -209,7 +214,12 @@ public class MechMovementController : MonoBehaviour
         }
         currFireInterval -= Time.deltaTime;
         if(currFireInterval<=0f) {
-            GameObject newBullet = Instantiate(bulletPrefab, lookRoot.transform.position, lookRoot.transform.rotation);
+            GameObject newBullet = Instantiate(bulletPrefab, gunRoot.position, gunRoot.rotation);
+            RaycastHit hit;
+            // if(Physics.Raycast(lookRoot.position, lookRoot.forward, out hit)) {
+            //     print($"{gameObject.name}: bullet realigned to raycast");
+            //     newBullet.transform.LookAt(hit.point);
+            // }
             newBullet.GetComponent<BulletController>().setFiredBy(gameObject);
             if(pilotLookCam) {
                 pilotLookCam.addShake(1f,0.5f, new Vector3(1f,0f,0f));
@@ -248,22 +258,26 @@ public class MechMovementController : MonoBehaviour
 
     public void setIsVenting(bool inp) {
         isHeatVenting = inp;
+        isShielding = false;
     }
 
     public void setIsShielding(bool inp) {
         isShielding = inp;
+        isHeatVenting = false;
     }
 
     public void setIsVenting() {
         isHeatVenting = !isHeatVenting;
+        isShielding = false;
     }
 
     public void setIsShielding() {
         isShielding = !isShielding;
+        isHeatVenting = false;
     }
 
     public Transform getLookRoot() {
-        return lookRoot.transform;
+        return lookRoot;
     }
 
     public void makeShatterMesh() {

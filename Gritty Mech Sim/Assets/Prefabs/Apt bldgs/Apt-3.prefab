@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6903503164567738713}
   - component: {fileID: 5066282689753650586}
   - component: {fileID: 6963523694581902679}
+  - component: {fileID: 4414292661748628018}
   m_Layer: 0
   m_Name: Apt-3
   m_TagString: Untagged
@@ -83,3 +84,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &4414292661748628018
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4951712765260007932}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.4242, y: 1.5965036, z: 2.0000005}
+  m_Center: {x: 0, y: 0.004978211, z: 1.909621e-17}

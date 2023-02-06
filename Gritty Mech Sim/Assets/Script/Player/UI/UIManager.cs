@@ -88,4 +88,13 @@ public class UIManager : MonoBehaviour
             shieldText.color = safeColor;
         }
     }
+
+    public void showHitMarker() {
+        // show htimarker
+        // play hit sound
+    }
+
+    public void showDestroyedMarker() {
+        // show destroyed marker
+    }
 }
