@@ -16,8 +16,8 @@ public class MechMovementController : MonoBehaviour
 
     private bool isDashing = false;
     private float dashTimer = 0f;
-    private float dashDuration = 0.15f;
-    private float dashSpeed = 50f;
+    private float dashDuration = 0.25f;
+    private float dashSpeed = 60f;
     private Vector3 dashVector;
     [SerializeField] private AnimationCurve dashCurve;
 
@@ -84,14 +84,14 @@ public class MechMovementController : MonoBehaviour
         // CurrLookRotation.y = Mathf.Clamp(Mathf.MoveTowardsAngle(CurrLookRotation.y, targetLook.y, lookSpeed*Time.deltaTime),-30f,30f);
         CurrLookRotation.x = Mathf.Lerp(CurrLookRotation.x, targetLook.x, 10f*Time.deltaTime);
         CurrLookRotation.y = Mathf.Clamp(Mathf.Lerp(CurrLookRotation.y, targetLook.y, 10f*Time.deltaTime),-30f,30f);
-        if(input_isFiring) {
-            tryFireGun();
-        }
         currTilt = Mathf.SmoothDamp(currTilt, (CurrVelocity.x/MoveSpeed)*(-1f)*tiltFactor, ref tiltVelocity, 0.2f);
-        transform.localRotation = Quaternion.Euler(0f,CurrLookRotation.x,0f);
+        transform.rotation = Quaternion.Euler(0f,CurrLookRotation.x,0f);
         lookRoot.localRotation = Quaternion.Euler(-1f * CurrLookRotation.y, 0f, currTilt);
         if(cockpitRotationRoot) {
             cockpitRotationRoot.localRotation = Quaternion.Euler(-1f * CurrLookRotation.y,CurrLookRotation.x,0f);
+        }
+        if(input_isFiring) {
+            tryFireGun();
         }
 
         // Disable systems based on max heat
