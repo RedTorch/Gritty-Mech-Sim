@@ -30,7 +30,7 @@ public class BulletController : MonoBehaviour
             objectsHit += $"\nHIT: {gameObject.name} ----- {hit.collider.gameObject.name}";
         }
         bool isHit = Physics.Raycast(transform.position,transform.forward, out hit, forwardDistance);
-        if(isHit && hit.collider.gameObject != firedBy) {
+        if(isHit && hit.collider.gameObject != firedBy && hit.collider.gameObject.tag != "BulletPassthrough") {
             GameObject target = hit.collider.gameObject;
             GameObject targetRoot = hit.collider.transform.root.gameObject;
             if(targetRoot.GetComponent<MechMovementController>()) {

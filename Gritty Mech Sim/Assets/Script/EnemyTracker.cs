@@ -53,7 +53,11 @@ public class EnemyTracker : MonoBehaviour
             Vector3 screenPos = mainCam.WorldToScreenPoint(enemies[i].transform.position);
             Vector2 newAnchoredPos = new Vector2((screenPos.x-0.5f*pixWidth)*150f/pixWidth, (screenPos.y-0.5f*pixHeight)*100f/pixHeight);
             (statFrames[i].GetComponent<RectTransform>()).anchoredPosition = newAnchoredPos;
-            statFrames[i].GetComponent<BoxPrefabManager>().getText().GetComponent<TMP_Text>().text = $"({Mathf.Floor(newAnchoredPos.x)}, {Mathf.Floor(newAnchoredPos.x)})";
+            string newText = "";
+            if(enemies[i].GetComponent<MechMovementController>()) {
+                newText = $"HP: {enemies[i].GetComponent<MechMovementController>().getHealthPercent()}%";
+            }
+            statFrames[i].GetComponent<BoxPrefabManager>().getText().GetComponent<TMP_Text>().text = newText;
         }
     }
 }

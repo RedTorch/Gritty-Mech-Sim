@@ -7,7 +7,7 @@ public class MechMovementController : MonoBehaviour
     private Vector3 CurrVelocity = new Vector3(0f,0f,0f);
     private float[] gearSpeed = new float[] {12f,24f,40f};
     private float[] gearMode = new float[] {5f,3f,1.5f};
-    private float MoveSpeed = 12f;
+    private float MoveSpeed = 20f;
     private float accelerationFactor = 5f;
     private Vector2 CurrLookRotation = new Vector2(0f,0f);
     private Rigidbody rb;
@@ -16,7 +16,7 @@ public class MechMovementController : MonoBehaviour
 
     private bool isDashing = false;
     private float dashTimer = 0f;
-    private float dashDuration = 0.25f;
+    private float dashDuration = 0.15f;
     private float dashSpeed = 60f;
     private Vector3 dashVector;
     [SerializeField] private AnimationCurve dashCurve;
@@ -28,7 +28,7 @@ public class MechMovementController : MonoBehaviour
     [Tooltip("look speed of the mech camera root, in degrees per second")]
     private float lookSpeed = 90f;
 
-    private float tiltFactor = 5f;
+    private float tiltFactor = 2f;
     private float currTilt = 0f;
     private float tiltVelocity = 0f;
 
@@ -40,6 +40,7 @@ public class MechMovementController : MonoBehaviour
     private bool isShielding = false; // DISPLAY ALL THESE
     private bool isHeatVenting = false;
     private bool canDash = false;
+    private bool isDashAttemptQueued = false;
 
     private float currShield = 0f; // DISPLAY
     private float maxShield = 100f;
@@ -64,6 +65,8 @@ public class MechMovementController : MonoBehaviour
 
     [SerializeField] private GameObject destroyedPsPrefab;
 
+    private bool isSmoked = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -84,7 +87,6 @@ public class MechMovementController : MonoBehaviour
         // CurrLookRotation.y = Mathf.Clamp(Mathf.MoveTowardsAngle(CurrLookRotation.y, targetLook.y, lookSpeed*Time.deltaTime),-30f,30f);
         CurrLookRotation.x = Mathf.Lerp(CurrLookRotation.x, targetLook.x, 10f*Time.deltaTime);
         CurrLookRotation.y = Mathf.Clamp(Mathf.Lerp(CurrLookRotation.y, targetLook.y, 10f*Time.deltaTime),-30f,30f);
-        currTilt = Mathf.SmoothDamp(currTilt, (CurrVelocity.x/MoveSpeed)*(-1f)*tiltFactor, ref tiltVelocity, 0.2f);
         transform.rotation = Quaternion.Euler(0f,CurrLookRotation.x,0f);
         lookRoot.localRotation = Quaternion.Euler(-1f * CurrLookRotation.y, 0f, currTilt);
         if(cockpitRotationRoot) {
@@ -94,6 +96,14 @@ public class MechMovementController : MonoBehaviour
             tryFireGun();
         }
 
+        if(isDashAttemptQueued) {
+            setHeat(heat + dashHeat);
+            isDashing = true;
+            dashTimer = dashDuration;
+            dashVector = ((transform.right * currMoveInput.x) + (transform.forward * currMoveInput.y)).normalized * dashSpeed;
+            isDashAttemptQueued = false;
+        }
+
         // Disable systems based on max heat
         canDash = heat < (maxHeat - dashHeat);
 
@@ -101,11 +111,13 @@ public class MechMovementController : MonoBehaviour
             if(camAnimator) {
                 camAnimator.SetFloat("runSpeed", 0f);
             }
-            rb.velocity = dashVector * dashCurve.Evaluate(Mathf.Clamp(dashTimer/dashDuration,0f,1f));
+            Vector3 v = dashVector * dashCurve.Evaluate(Mathf.Clamp(dashTimer/dashDuration,0f,1f));
+            rb.velocity = new Vector3(v.x,rb.velocity.y,v.z);
             dashTimer -= Time.deltaTime;
             if(dashTimer <= 0) {
                 isDashing = false;
             }
+            currTilt = Mathf.SmoothDamp(currTilt, (rb.velocity.x/MoveSpeed)*(-1f)*tiltFactor, ref tiltVelocity, 0.2f);
         }
         else {
             CurrVelocity = new Vector3(currMoveInput.x, 0f, currMoveInput.y) * MoveSpeed;
@@ -114,6 +126,7 @@ public class MechMovementController : MonoBehaviour
             }
             rb.velocity = (transform.right * CurrVelocity.x) + (transform.forward * CurrVelocity.z) + (transform.up * (rb.velocity.y-5f));
             // rb.AddForce(((transform.right * (CurrVelocity.x)) + (transform.forward * (CurrVelocity.z))-new Vector3(rb.velocity.x,40f,rb.velocity.z))*accelerationFactor);
+            currTilt = Mathf.SmoothDamp(currTilt, (CurrVelocity.x/MoveSpeed)*(-1f)*tiltFactor, ref tiltVelocity, 0.2f);
         }
 
         if(heat > (maxHeat - 0.5f)) {
@@ -250,10 +263,7 @@ public class MechMovementController : MonoBehaviour
         if(!canDash) {
             return;
         }
-        setHeat(heat + dashHeat);
-        isDashing = true;
-        dashTimer = dashDuration;
-        dashVector = ((transform.right * currMoveInput.x) + (transform.forward * currMoveInput.y)).normalized * dashSpeed;
+        isDashAttemptQueued = true;
     }
 
     public void setIsVenting(bool inp) {
@@ -288,5 +298,13 @@ public class MechMovementController : MonoBehaviour
         shattered.transform.localScale = transform.localScale;
         shattered.GetComponent<ParticleSystemRenderer>().material = GetComponent<Renderer>().material;
         Destroy(shattered,5f);
+    }
+
+    public void setIsSmoked(bool value) {
+        isSmoked = value;
+    }
+
+    public bool getIsSmoked() {
+        return isSmoked;
     }
 }

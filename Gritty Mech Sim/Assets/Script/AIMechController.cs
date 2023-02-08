@@ -122,9 +122,16 @@ public class AIMechController : MonoBehaviour
 
     private bool hasLoS(GameObject target) {
         float dist = Vector3.Distance(camt.position, target.transform.position);
-        RaycastHit[] rcHits = Physics.RaycastAll(new Ray(camt.position,target.transform.position-transform.position),dist);
+        // RaycastHit[] rcHits = Physics.RaycastAll(new Ray(camt.position,target.transform.position-transform.position),dist);
+        RaycastHit[] rcHits = Physics.SphereCastAll(camt.position, 0.1f, target.transform.position-transform.position, dist);
         foreach(RaycastHit hitObj in rcHits) {
             if(hitObj.collider.transform.root != camt.root && hitObj.collider.transform.root != target.transform.root) {
+                return false;
+            }
+            else if(mechMoveCon.getIsSmoked() && !target.GetComponent<MechMovementController>().getIsSmoked()) { 
+                /* check if self is in smoke and its target is not also in smoke and close by.
+                Thus an enemy can attack a player in the same smoke (i.e. in the same collider).
+                This is only checked after we check line of sight considering smoke as solid objects*/
                 return false;
             }
         }

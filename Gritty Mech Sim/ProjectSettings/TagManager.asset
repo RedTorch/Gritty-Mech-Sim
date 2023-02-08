@@ -6,6 +6,7 @@ TagManager:
   tags:
   - InteractablePanel
   - Enemy
+  - BulletPassthrough
   layers:
   - Default
   - TransparentFX

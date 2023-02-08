@@ -4,6 +4,6 @@ using UnityEngine;
 
 public class COMMENT : MonoBehaviour
 {
-    [TextArea]
+    [TextArea(8,18)]
     public string Note = "";
 }
