@@ -13,7 +13,6 @@ public class BulletController : MonoBehaviour
     [SerializeField] private GameObject HitPsPrefab;
     [SerializeField] private GameObject debugCube;
 
-    private string objectsHit = "Objects Hit:";
     [SerializeField] private UIManager uiman;
     // Start is called before the first frame update
     void Start()
@@ -25,43 +24,44 @@ public class BulletController : MonoBehaviour
     void Update()
     {
         float forwardDistance = SpeedInMetersPerSecond * Time.deltaTime * 1f;
-        RaycastHit hit;
-        if(Physics.Raycast(transform.position,transform.forward, out hit, forwardDistance)) {
-            objectsHit += $"\nHIT: {gameObject.name} ----- {hit.collider.gameObject.name}";
+        // RaycastHit hit;
+        // if(Physics.Raycast(transform.position,transform.forward, out hit, forwardDistance)) {
+        RaycastHit[] hits = Physics.RaycastAll(transform.position, transform.forward, forwardDistance);
+        foreach(RaycastHit hit in hits) {
+            // print($"{gameObject.name} hit {hit.collider.gameObject.name}");
+            if(hit.collider.gameObject != firedBy && hit.collider.gameObject.tag != "BulletPassthrough") {
+            // i.e. if the bullet hits a target that it should be blocked by
+                GameObject target = hit.collider.gameObject;
+                GameObject targetRoot = hit.collider.transform.root.gameObject;
+                if(targetRoot.GetComponent<MechMovementController>()) {
+                    if(targetRoot.GetComponent<MechMovementController>().onReceiveDamage(Damage) && uiman) {
+                        uiman.showDestroyedMarker();
+                    }
+                    else if(uiman) {
+                        uiman.showHitMarker();
+                    }
+                }
+                if(targetRoot.GetComponent<AIMechController>()) {
+                    target.GetComponent<AIMechController>().onReceiveDamage(Damage,firedBy);
+                }
+                if(target.GetComponent<DamageReceiver>()) {
+                    target.GetComponent<DamageReceiver>().onReceiveDamage(Damage);
+                }
+                GameObject ps = Instantiate(HitPsPrefab, hit.point, Quaternion.identity);
+                ps.GetComponent<HitPS>().setMaterial(target);
+                transform.position = hit.point;
+                returnHitAlert();
+                selfDestroy();
+                return;
+            }
         }
-        bool isHit = Physics.Raycast(transform.position,transform.forward, out hit, forwardDistance);
-        if(isHit && hit.collider.gameObject != firedBy && hit.collider.gameObject.tag != "BulletPassthrough") {
-            GameObject target = hit.collider.gameObject;
-            GameObject targetRoot = hit.collider.transform.root.gameObject;
-            if(targetRoot.GetComponent<MechMovementController>()) {
-                if(targetRoot.GetComponent<MechMovementController>().onReceiveDamage(Damage) && uiman) {
-                    uiman.showDestroyedMarker();
-                }
-                else if(uiman) {
-                    uiman.showHitMarker();
-                }
-            }
-            if(targetRoot.GetComponent<AIMechController>()) {
-                target.GetComponent<AIMechController>().onReceiveDamage(Damage,firedBy);
-            }
-            if(target.GetComponent<DamageReceiver>()) {
-                target.GetComponent<DamageReceiver>().onReceiveDamage(Damage);
-            }
-            GameObject ps = Instantiate(HitPsPrefab, hit.point, Quaternion.identity);
-            ps.GetComponent<HitPS>().setMaterial(target);
-            transform.position = hit.point;
-            returnHitAlert();
+        if(totalDistTraveled >= MaxDistance) {
             selfDestroy();
         }
         else {
-            if(totalDistTraveled >= MaxDistance) {
-                selfDestroy();
-            }
-            else {
-                transform.Translate(Vector3.forward * forwardDistance);
-                totalDistTraveled += forwardDistance;
-                // Debug.DrawRay(transform.position,transform.forward*forwardDistance); // debugging raycast...
-            }
+            transform.Translate(Vector3.forward * forwardDistance);
+            totalDistTraveled += forwardDistance;
+            // Debug.DrawRay(transform.position,transform.forward*forwardDistance); // debugging raycast...
         }
     }
 

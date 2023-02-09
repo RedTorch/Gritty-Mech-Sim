@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MechMovementController : MonoBehaviour
 {
+    [SerializeField] private bool isGodMode = false;
     private Vector3 CurrVelocity = new Vector3(0f,0f,0f);
     private float[] gearSpeed = new float[] {12f,24f,40f};
     private float[] gearMode = new float[] {5f,3f,1.5f};
@@ -67,6 +68,8 @@ public class MechMovementController : MonoBehaviour
 
     private bool isSmoked = false;
 
+    [SerializeField] private bool isAi = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -75,6 +78,9 @@ public class MechMovementController : MonoBehaviour
         }
         rb = gameObject.GetComponent<Rigidbody>();
         audioSource = gameObject.GetComponent<AudioSource>();
+        if(GetComponent<AIMechController>()) {
+            isAi = true;
+        }
     }
 
     // Update is called once per frame
@@ -119,7 +125,7 @@ public class MechMovementController : MonoBehaviour
             }
             currTilt = Mathf.SmoothDamp(currTilt, (rb.velocity.x/MoveSpeed)*(-1f)*tiltFactor, ref tiltVelocity, 0.2f);
         }
-        else {
+        else if(!isAi){
             CurrVelocity = new Vector3(currMoveInput.x, 0f, currMoveInput.y) * MoveSpeed;
             if(camAnimator) {
                 camAnimator.SetFloat("runSpeed", CurrVelocity.magnitude);
@@ -164,6 +170,9 @@ public class MechMovementController : MonoBehaviour
     // Receives damage; called by BulletController or other damage sources
     // if 
     public bool onReceiveDamage(float dmg) {
+        if(isGodMode) {
+            return true;
+        }
         if(isShielding) {
             if(currShield > dmg) {
                 currShield -= dmg;
@@ -222,7 +231,7 @@ public class MechMovementController : MonoBehaviour
     }
 
     void tryFireGun() {
-        if(weaponOverheat >= weaponOverheatMax) {
+        if(weaponOverheat >= weaponOverheatMax || !bulletPrefab) {
             return;
         }
         currFireInterval -= Time.deltaTime;
