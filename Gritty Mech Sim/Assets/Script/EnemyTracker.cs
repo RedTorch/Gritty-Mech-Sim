@@ -14,7 +14,6 @@ public class EnemyTracker : MonoBehaviour
 
     private int bufferSize = 200;
     private GameObject[] statFrames;
-    private int prevEnemiesLength = 0;
     
     private float minScaleDistance = 50f; // the minimum distance at which the box will start to shrink
     private float pixWidth;
@@ -37,10 +36,9 @@ public class EnemyTracker : MonoBehaviour
     {
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
         // update boxes
-        for(int i = enemies.Length; i < prevEnemiesLength; i++) {
+        for(int i = enemies.Length; i < statFrames.Length; i++) {
             statFrames[i].SetActive(false);
         }
-        prevEnemiesLength = enemies.Length;
         for(int i = 0; i < enemies.Length; i++) {
             Vector3 delta = enemies[i].transform.position-mainCam.transform.position;
             if(Vector3.Angle(mainCam.transform.forward, delta) > 60f) {

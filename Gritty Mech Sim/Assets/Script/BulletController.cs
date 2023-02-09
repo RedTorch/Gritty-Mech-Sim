@@ -52,7 +52,7 @@ public class BulletController : MonoBehaviour
                 transform.position = hit.point;
                 returnHitAlert();
                 selfDestroy();
-                return;
+                // return;
             }
         }
         if(totalDistTraveled >= MaxDistance) {
