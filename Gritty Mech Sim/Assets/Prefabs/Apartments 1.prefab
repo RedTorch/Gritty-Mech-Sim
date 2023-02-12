@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7223639227923564696}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Apartments 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -128,6 +128,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Apt-1 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 6419418849175380229, guid: e5ccdbbd566ef445a9ea33655da87cd7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8087743663449677959, guid: e5ccdbbd566ef445a9ea33655da87cd7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8277186451685004942, guid: e5ccdbbd566ef445a9ea33655da87cd7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e5ccdbbd566ef445a9ea33655da87cd7, type: 3}
 --- !u!4 &9030895772670231867 stripped
@@ -147,6 +162,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Apt-2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1477251188032232338, guid: 3e9f456a999b5458392a637cbd712c25,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4254441251745506284, guid: 3e9f456a999b5458392a637cbd712c25,
         type: 3}
@@ -308,6 +328,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Apt-1 (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 6419418849175380229, guid: e5ccdbbd566ef445a9ea33655da87cd7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8087743663449677959, guid: e5ccdbbd566ef445a9ea33655da87cd7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8277186451685004942, guid: e5ccdbbd566ef445a9ea33655da87cd7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e5ccdbbd566ef445a9ea33655da87cd7, type: 3}
 --- !u!4 &9030895773312412891 stripped
@@ -327,6 +362,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Apt-3 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4951712765260007932, guid: f02a0e3f956114cd48d8f8f030025e8a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6903503164567738713, guid: f02a0e3f956114cd48d8f8f030025e8a,
         type: 3}
@@ -488,6 +528,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Apt-1
       objectReference: {fileID: 0}
+    - target: {fileID: 6419418849175380229, guid: e5ccdbbd566ef445a9ea33655da87cd7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8087743663449677959, guid: e5ccdbbd566ef445a9ea33655da87cd7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8277186451685004942, guid: e5ccdbbd566ef445a9ea33655da87cd7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e5ccdbbd566ef445a9ea33655da87cd7, type: 3}
 --- !u!4 &9030895773583120088 stripped
@@ -562,6 +617,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Apt-4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947046924126111217, guid: 0b742be311212472089ef58ccfb93297,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0b742be311212472089ef58ccfb93297, type: 3}
@@ -658,6 +718,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Apt-1 (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 6419418849175380229, guid: e5ccdbbd566ef445a9ea33655da87cd7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8087743663449677959, guid: e5ccdbbd566ef445a9ea33655da87cd7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8277186451685004942, guid: e5ccdbbd566ef445a9ea33655da87cd7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e5ccdbbd566ef445a9ea33655da87cd7, type: 3}
 --- !u!4 &9030895773754622865 stripped
@@ -743,6 +818,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Apt-4 (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 7947046924126111217, guid: 0b742be311212472089ef58ccfb93297,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0b742be311212472089ef58ccfb93297, type: 3}
 --- !u!4 &7042555421209542454 stripped
@@ -762,6 +842,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Apt-3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4951712765260007932, guid: f02a0e3f956114cd48d8f8f030025e8a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6903503164567738713, guid: f02a0e3f956114cd48d8f8f030025e8a,
         type: 3}
@@ -912,6 +997,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Apt-4 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947046924126111217, guid: 0b742be311212472089ef58ccfb93297,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0b742be311212472089ef58ccfb93297, type: 3}

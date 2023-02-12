@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5390890698416791357}
   - component: {fileID: 5390890698416791358}
   - component: {fileID: 5390890698416791353}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SmokeGrenadePrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}

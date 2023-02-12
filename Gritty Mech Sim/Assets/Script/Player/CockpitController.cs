@@ -18,6 +18,7 @@ public class CockpitController : MonoBehaviour
 
     [SerializeField] private Image pilotFreelookCrosshairs;
     [SerializeField] private MechMovementController mechMoveController;
+    [SerializeField] private LauncherController myLauncherController;
     [SerializeField] private Transform camRootOuter;
     [SerializeField] private Transform cameraTransform;
     private Vector2 freelookRotation = new Vector2(0f,0f);
@@ -96,9 +97,9 @@ public class CockpitController : MonoBehaviour
             Application.LoadLevel(Application.loadedLevel);
         }
 
-        // if(Input.GetKeyDown("t")) {
-        //     addShake(1f,0.5f, new Vector3(1f,0f,0f));
-        // }
+        if(Input.GetKeyDown("g")) {
+            myLauncherController.OnTryFire();
+        }
 
         if(isShaking) {
             simulateCurrentShake();

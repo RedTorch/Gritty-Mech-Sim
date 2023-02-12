@@ -18,10 +18,18 @@ public class SmokeGrenadeManager : MonoBehaviour
     void Update()
     {
         if(fuse < 0f || rb.velocity.magnitude <= 0.001f) {
-            Instantiate(smokeCloudPrefab,transform.position,Quaternion.identity);
-            Destroy(gameObject);
+            explode();
         } else {
             fuse -= Time.deltaTime;
         }
+    }
+
+    void explode() {
+        Instantiate(smokeCloudPrefab,transform.position,Quaternion.identity);
+        Destroy(gameObject);
+    }
+
+    private void OnCollisionEnter(Collision other) {
+        explode();
     }
 }

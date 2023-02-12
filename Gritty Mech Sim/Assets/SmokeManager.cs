@@ -15,9 +15,9 @@ public class SmokeManager : MonoBehaviour
     void Update()
     {
         if (_ps && !_ps.IsAlive())
-         {
-             Destroy(gameObject);
-         }
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void OnTriggerEnter(Collider other) {
@@ -30,9 +30,5 @@ public class SmokeManager : MonoBehaviour
         if(other.transform.root.GetComponent<MechMovementController>()) {
             other.transform.root.GetComponent<MechMovementController>().setIsSmoked(false);
         }
-    }
-
-    void deactivateCollider() {
-        //
     }
 }
