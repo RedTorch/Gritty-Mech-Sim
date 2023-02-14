@@ -21,14 +21,14 @@ public class SmokeManager : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider other) {
-        if(other.transform.root.GetComponent<MechMovementController>()) {
-            other.transform.root.GetComponent<MechMovementController>().setIsSmoked(true);
+        if(other.transform.GetComponent<MechMovementController>()) {
+            other.transform.GetComponent<MechMovementController>().setIsSmoked(true);
         }
     }
 
     private void OnTriggerExit(Collider other) {
-        if(other.transform.root.GetComponent<MechMovementController>()) {
-            other.transform.root.GetComponent<MechMovementController>().setIsSmoked(false);
+        if(other.transform.GetComponent<MechMovementController>()) {
+            other.transform.GetComponent<MechMovementController>().setIsSmoked(false);
         }
     }
 }

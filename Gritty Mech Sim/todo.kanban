@@ -84,16 +84,76 @@
           "labels": [],
           "checkboxes": [],
           "comments": []
+        },
+        {
+          "id": "0d22cd51-84c1-470b-9211-9294674dce3d",
+          "listId": "2d6df060-ccf3-44e9-8854-a3d6725c070f",
+          "title": "Improved Shield",
+          "description": "",
+          "labels": [],
+          "checkboxes": [
+            {
+              "id": "a6213074-7365-4811-83b4-f95717ce3e2f",
+              "title": "Shield root attempts to follow player look direction",
+              "checked": false
+            },
+            {
+              "id": "c4a7c166-2d30-4933-87dc-8ba6678aca96",
+              "title": "Using shield activates a trigger collider (blocks bullets) which is a one-way plane",
+              "checked": false
+            },
+            {
+              "id": "ea2f9464-8dc2-49d1-a0d1-24ce7fade81a",
+              "title": "Visuals: visible collider",
+              "checked": false
+            },
+            {
+              "id": "4a6f3a69-824b-425b-a13a-d018540a61f2",
+              "title": "Effects: activation, deactivation, bullet hit, break",
+              "checked": false
+            },
+            {
+              "id": "67d8e2af-6fe0-4f27-b9c8-880d76d9f456",
+              "title": "Audio: activation, deactivation, bullet hit, break",
+              "checked": false
+            }
+          ],
+          "comments": []
+        },
+        {
+          "id": "60906b7e-3eec-472d-abba-9e439d0fc2ff",
+          "listId": "2d6df060-ccf3-44e9-8854-a3d6725c070f",
+          "title": "Improved UI",
+          "description": "",
+          "labels": [],
+          "checkboxes": [
+            {
+              "id": "981daf32-50ac-4514-a4e2-d189dfec8e1d",
+              "title": "Convert stats to bars and move them to the above screen",
+              "checked": false
+            },
+            {
+              "id": "a9144c2f-6a8d-4ba8-b674-fea0275579bd",
+              "title": "Use lower console for other operations",
+              "checked": false
+            }
+          ],
+          "comments": []
         }
       ]
     },
     {
       "id": "99e32d21-85c5-41c0-9b2f-82e07dad81fa",
       "title": "Doing",
+      "cards": []
+    },
+    {
+      "id": "246dbf5e-d1f2-420a-8d34-834ff92a53f5",
+      "title": "Done",
       "cards": [
         {
           "id": "6d9a5c97-a421-4cf4-a9aa-8b6a40bdf583",
-          "listId": "99e32d21-85c5-41c0-9b2f-82e07dad81fa",
+          "listId": "246dbf5e-d1f2-420a-8d34-834ff92a53f5",
           "title": "Smoke grenade",
           "description": "",
           "labels": [],
@@ -107,21 +167,11 @@
               "id": "ee07185a-ba06-4613-81c4-c3188967bac6",
               "title": "Launcher (generic launcher-- grenades, missiles)",
               "checked": true
-            },
-            {
-              "id": "1d558f75-3879-4835-883a-39ba942a8106",
-              "title": "Create mech modules/ customization system",
-              "checked": false
             }
           ],
           "comments": []
         }
       ]
-    },
-    {
-      "id": "246dbf5e-d1f2-420a-8d34-834ff92a53f5",
-      "title": "Done",
-      "cards": []
     },
     {
       "id": "176b17f7-daae-4c4b-b1a7-d92f936af866",
