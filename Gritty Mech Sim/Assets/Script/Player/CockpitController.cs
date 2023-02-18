@@ -34,6 +34,8 @@ public class CockpitController : MonoBehaviour
     private float camSpeedByFrequency = 0f;
     private Vector3 currShakeV = new Vector3();
 
+    [SerializeField] private GameObject adsImage;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -74,6 +76,8 @@ public class CockpitController : MonoBehaviour
             mechMoveController.setCurrMoveInput(new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")));
 
             mechMoveController.setIsFiring(Input.GetButton("Fire1"));
+
+            adsImage.SetActive(Input.GetButton("Fire1"));
 
             if(Input.GetButtonDown("Fire3")) {
                 mechMoveController.setAttemptDash();
