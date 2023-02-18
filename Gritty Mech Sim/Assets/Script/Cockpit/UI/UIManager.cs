@@ -10,6 +10,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Text damageText;
     [SerializeField] private TMP_Text weaponText;
     [SerializeField] private TMP_Text shieldText;
+    [SerializeField] private Image leftBar;
+    [SerializeField] private Image rightBar;
 
     [SerializeField] private Color safeColor;
     [SerializeField] private Color dangerColor;
@@ -44,6 +46,7 @@ public class UIManager : MonoBehaviour
         else {
             heatText.color = safeColor;
         }
+        leftBar.fillAmount = mmcon.getHeatPercent()*0.01f;
 
         float hp = mmcon.getHealthPercent();
         damageText.text = "DMG - " + hp + "%";
@@ -87,6 +90,7 @@ public class UIManager : MonoBehaviour
         else {
             shieldText.color = safeColor;
         }
+        rightBar.fillAmount = mmcon.getShieldPercent()*0.01f;
     }
 
     public void showHitMarker() {
