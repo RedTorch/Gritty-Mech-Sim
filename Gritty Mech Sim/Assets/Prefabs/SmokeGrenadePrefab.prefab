@@ -108,7 +108,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5390890698416791359}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: afd323e8b3d4646c298ead2deaf56773, type: 3}
+  m_Script: {fileID: 11500000, guid: cbbc663079201437084b48931fabe280, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   smokeCloudPrefab: {fileID: 9196491020656858949, guid: a1fc6f3ddf4c342f1a51c26dd0c21893,

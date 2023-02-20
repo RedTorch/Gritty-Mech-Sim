@@ -77,7 +77,9 @@ public class CockpitController : MonoBehaviour
 
             mechMoveController.setIsFiring(Input.GetButton("Fire1"));
 
-            adsImage.SetActive(Input.GetButton("Fire1"));
+            if(adsImage) {
+                adsImage.SetActive(Input.GetButton("Fire1"));
+            }
 
             if(Input.GetButtonDown("Fire3")) {
                 mechMoveController.setAttemptDash();

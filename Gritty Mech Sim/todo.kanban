@@ -14,15 +14,6 @@
           "comments": []
         },
         {
-          "id": "2c522ad1-ab1d-45f5-8251-c550ece3267a",
-          "listId": "2d6df060-ccf3-44e9-8854-a3d6725c070f",
-          "title": "Hit indicators",
-          "description": "",
-          "labels": [],
-          "checkboxes": [],
-          "comments": []
-        },
-        {
           "id": "8e381747-8a38-45c8-bdf2-66551af7c04d",
           "listId": "2d6df060-ccf3-44e9-8854-a3d6725c070f",
           "title": "Gun system",
@@ -139,13 +130,59 @@
             }
           ],
           "comments": []
+        },
+        {
+          "id": "595ada43-cd20-42a7-979e-b22d8b062627",
+          "listId": "2d6df060-ccf3-44e9-8854-a3d6725c070f",
+          "title": "Shell Select",
+          "description": "",
+          "labels": [],
+          "checkboxes": [],
+          "comments": []
+        },
+        {
+          "id": "8d65ba5a-23e0-4c5c-b656-d1d56f0e848f",
+          "listId": "2d6df060-ccf3-44e9-8854-a3d6725c070f",
+          "title": "EMP Level",
+          "description": "",
+          "labels": [],
+          "checkboxes": [],
+          "comments": []
+        },
+        {
+          "id": "2fae8b0d-efe0-4bff-a6a8-c461d82d5126",
+          "listId": "2d6df060-ccf3-44e9-8854-a3d6725c070f",
+          "title": "Rocket barrage",
+          "description": "- Burst-damage weapon with relatively long reload, relatively short range (especially since the missile is relatively slow moving). Basically a shotgun attack.\n- Player can use it at close range using a targeting reticle\n- When used by enemies, the smoke trail is a big giveaway\n- Only deals direct-hit damage, same as a normal shell\n- General stats: 1 ammo, 10 missiles each deal 25 damage on direct hit, reloads in 15 seconds. Shots are fired from shoulder-height of the mech facing direction.",
+          "labels": [],
+          "checkboxes": [],
+          "comments": []
         }
       ]
     },
     {
       "id": "99e32d21-85c5-41c0-9b2f-82e07dad81fa",
       "title": "Doing",
-      "cards": []
+      "cards": [
+        {
+          "id": "2c522ad1-ab1d-45f5-8251-c550ece3267a",
+          "listId": "99e32d21-85c5-41c0-9b2f-82e07dad81fa",
+          "title": "Hit indicators",
+          "description": "",
+          "labels": [],
+          "checkboxes": [],
+          "comments": []
+        },
+        {
+          "id": "d0d53746-2b98-4890-b501-6385b759f1a5",
+          "listId": "99e32d21-85c5-41c0-9b2f-82e07dad81fa",
+          "title": "Gun auto-aim (long-distance)",
+          "description": "",
+          "labels": [],
+          "checkboxes": [],
+          "comments": []
+        }
+      ]
     },
     {
       "id": "246dbf5e-d1f2-420a-8d34-834ff92a53f5",
