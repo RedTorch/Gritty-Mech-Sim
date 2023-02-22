@@ -70,6 +70,10 @@ public class MechMovementController : MonoBehaviour
 
     [SerializeField] private bool isAi = false;
 
+    [SerializeField] private float spreadAngle = 2f;
+
+    [SerializeField] private GameObject shieldPrefab;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -98,6 +102,7 @@ public class MechMovementController : MonoBehaviour
         if(cockpitRotationRoot) {
             cockpitRotationRoot.localRotation = Quaternion.Euler(-1f * CurrLookRotation.y,CurrLookRotation.x,0f);
         }
+        currFireInterval = Mathf.Clamp(currFireInterval - Time.deltaTime, 0f, 1f);
         if(input_isFiring) {
             tryFireGun();
         }
@@ -142,9 +147,15 @@ public class MechMovementController : MonoBehaviour
         if(isShielding) {
             setHeat(heat + (shieldHeat*Time.deltaTime));
             currShield += shieldRecovery * Time.deltaTime;
+            if(shieldPrefab) {
+                shieldPrefab.SetActive(true);
+            }
         }
         else {
             currShield -= shieldRecovery * 0.1f * Time.deltaTime;
+            if(shieldPrefab) {
+                shieldPrefab.SetActive(false);
+            }
         }
         currShield = Mathf.Clamp(currShield,0f,maxShield);
 
@@ -230,13 +241,17 @@ public class MechMovementController : MonoBehaviour
         return Mathf.Floor(100f*weaponOverheat/weaponOverheatMax);
     }
 
+    public float getCooldownPercent() {
+        return currFireInterval/fireInterval;
+    }
+
     void tryFireGun() {
         if(weaponOverheat >= weaponOverheatMax || !bulletPrefab) {
             return;
         }
-        currFireInterval -= Time.deltaTime;
         if(currFireInterval<=0f) {
             GameObject newBullet = Instantiate(bulletPrefab, gunRoot.position, gunRoot.rotation);
+            newBullet.transform.Rotate(Random.Range(-spreadAngle,spreadAngle),Random.Range(-spreadAngle,spreadAngle),0f);
             RaycastHit hit;
             // if(Physics.Raycast(lookRoot.position, lookRoot.forward, out hit)) {
             //     print($"{gameObject.name}: bullet realigned to raycast");

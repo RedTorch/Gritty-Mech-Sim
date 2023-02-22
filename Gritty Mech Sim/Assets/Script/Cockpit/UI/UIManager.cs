@@ -28,6 +28,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Image ShieldBar;
     [SerializeField] private Image HpBar;
     [SerializeField] private Image WeaponBar;
+    [SerializeField] private Image WeaponBar2;
 
     [SerializeField] private Color safeColor;
     [SerializeField] private Color dangerColor;
@@ -49,18 +50,20 @@ public class UIManager : MonoBehaviour
         updateHeat();
         updateHp();
         updateWeapon();
+        updateWeapon2();
         updateShield();
     }
 
     private void updateHeat() {
         float heat = mmcon.getHeatPercent();
         if(heatText) {
-            heatText.text = "HEAT - " + heat + "%";
+            heatText.text = $"HEAT\n{heat}%";
+            // heatText.text = "HEAT - " + heat + "%";
             if(mmcon.getIsHeatVenting()) {
-                heatText.text += "\nHEAT VENTING";
+                // heatText.text += "\nHEAT VENTING";
             }
             if(heat>80f) {
-                heatText.text += "\nDANGER: VENT";
+                // heatText.text += "\nDANGER: VENT";
                 heatText.color = criticalColor;
             }
             else if(heat > 60f) {
@@ -80,7 +83,7 @@ public class UIManager : MonoBehaviour
         if(damageText) {
             damageText.text = "DMG - " + hp + "%";
             if(hp<20f) {
-                damageText.text += "\nHEAVY DAMAGE";
+                // damageText.text += "\nHEAVY DAMAGE";
                 damageText.color = criticalColor;
             }
             else if(hp<40f) {
@@ -121,10 +124,10 @@ public class UIManager : MonoBehaviour
         if(shieldText) {
             shieldText.text = "SHLD - " + shield + "%";
             if(mmcon.getIsShielding()) {
-                shieldText.text += "\nSHIELDS UP";
+                // shieldText.text += "\nSHIELDS UP";
             }
             if(shield<10f) {
-                shieldText.text += "\nSHIELDS LOW";
+                // shieldText.text += "\nSHIELDS LOW";
                 shieldText.color = criticalColor;
             }
             else if(shield<30f) {
@@ -136,6 +139,12 @@ public class UIManager : MonoBehaviour
         }
         if(ShieldBar) {
             ShieldBar.fillAmount = shield*0.01f;
+        }
+    }
+
+    private void updateWeapon2() {
+        if(WeaponBar2) {
+            WeaponBar2.fillAmount = mmcon.getCooldownPercent();;
         }
     }
 

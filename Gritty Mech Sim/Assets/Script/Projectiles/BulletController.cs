@@ -6,7 +6,7 @@ public class BulletController : MonoBehaviour
 {
     private float Damage = 15f;
     private float SpeedInMetersPerSecond = 1200f; // 1200f is a realistic tank shell speed -- 1400 at max? Btw, an atgm will be 8x slower
-    private float MaxDistance = 1000f;
+    private float MaxDistance = 500f;
     private float totalDistTraveled = 0f;
     private GameObject firedBy;
 

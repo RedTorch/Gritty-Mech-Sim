@@ -181,6 +181,59 @@
           "labels": [],
           "checkboxes": [],
           "comments": []
+        },
+        {
+          "id": "558f826b-7931-4214-9ef5-e843e178c46c",
+          "listId": "99e32d21-85c5-41c0-9b2f-82e07dad81fa",
+          "title": "Enemy attack improvements",
+          "description": "",
+          "labels": [],
+          "checkboxes": [
+            {
+              "id": "93d12b39-bc56-4c6a-af5f-97820a6ffa62",
+              "title": "Delay between sighting and attack and/or accuracy penalty on first sight (allowing player to employ peek-and-shoot tactics)",
+              "checked": false
+            },
+            {
+              "id": "b889b8be-2044-4329-b54f-f12451310ff1",
+              "title": "Arrow indicators for being spotted/ attacked/ fired at (use a sphere collider)",
+              "checked": false
+            },
+            {
+              "id": "5939d9c6-abe6-410c-bcb7-afa79a8daa23",
+              "title": "Enemies can be stunned/ suppressed when fired on",
+              "checked": false
+            },
+            {
+              "id": "b2e47072-3bd7-4b76-ae36-c1c2d2abbf73",
+              "title": "Enemies attack in short bursts with fire delay",
+              "checked": false
+            },
+            {
+              "id": "e7a3486c-aac5-4c7a-862d-8b6da138a8d4",
+              "title": "Enemies have a short fire lag (so the player can dodge shots by moving)",
+              "checked": false
+            }
+          ],
+          "comments": []
+        },
+        {
+          "id": "ae35a2a1-bd94-4574-bb2f-50739937a9f7",
+          "listId": "99e32d21-85c5-41c0-9b2f-82e07dad81fa",
+          "title": "AI addition: target-specific prioritization",
+          "description": "Add a priority score for each unique object which is factored in when it is targeted. May be used in objective missions to designate a stationary target to defend.",
+          "labels": [],
+          "checkboxes": [],
+          "comments": []
+        },
+        {
+          "id": "bb84f85c-1694-476c-91e6-09e54b53f3f1",
+          "listId": "99e32d21-85c5-41c0-9b2f-82e07dad81fa",
+          "title": " AI addition: spotted/ not spotted system",
+          "description": "The player's position (for the move target) is only updated when the player is spotted, which is true within ~5 seconds of the player being seen, otherwise false (variable stored on the player). Allowing the player to flank.",
+          "labels": [],
+          "checkboxes": [],
+          "comments": []
         }
       ]
     },

@@ -13,6 +13,7 @@ public class RadarDisplay : MonoBehaviour
     private GameObject[] enemyIcons;
     private GameObject[] playerLocs;
     private GameObject[] playerIcons;
+    private bool[] enemyIsDetected;
     private float detectionDistance = 300f;
     private float scaleFactor = 0.3f;
     // Start is called before the first frame update
@@ -20,6 +21,7 @@ public class RadarDisplay : MonoBehaviour
     {
         enemyLocs = GameObject.FindGameObjectsWithTag("Enemy");
         enemyIcons = new GameObject[enemyLocs.Length];
+        enemyIsDetected = new bool[enemyLocs.Length];
         for(int i = 0; i < enemyLocs.Length; i++) {
             enemyIcons[i] = Instantiate(enemyIconPrefab,iconRoot.position,iconRoot.rotation,iconRoot);
             enemyIcons[i].gameObject.SetActive(false);
@@ -34,6 +36,11 @@ public class RadarDisplay : MonoBehaviour
         detectionCircleSprite.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, detectionDistance*0.4f*scaleFactor);
     }
 
+    public void rebuildArrays() {
+        Start();
+        Update();
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -42,7 +49,7 @@ public class RadarDisplay : MonoBehaviour
         }
         for(int i = 0; i < enemyLocs.Length; i++) {
             // print("distance = " + Vector3.Distance(enemyLocs[i].transform.position, mechPos.position) + " and enemyLocs[i] == null is " + (enemyLocs == null));
-            if(enemyLocs[i] != null && Vector3.Distance(enemyLocs[i].transform.position, mechPos.position) <= detectionDistance) {
+            if(enemyLocs[i] != null && enemyIsDetected[i]) {
                 Vector3 relPos = mechPos.InverseTransformPoint(enemyLocs[i].transform.position) * scaleFactor;
                 Vector2 newAnchorPos = new Vector2(relPos.x,relPos.z);
                 enemyIcons[i].GetComponent<RectTransform>().anchoredPosition = newAnchorPos;
@@ -53,7 +60,6 @@ public class RadarDisplay : MonoBehaviour
             }
         }
         for(int i = 0; i < playerLocs.Length; i++) {
-            // print("distance = " + Vector3.Distance(enemyLocs[i].transform.position, mechPos.position) + " and enemyLocs[i] == null is " + (enemyLocs == null));
             if(playerLocs[i] != null) {
                 Vector3 relPos = mechPos.InverseTransformPoint(playerLocs[i].transform.position) * scaleFactor;
                 Vector2 newAnchorPos = new Vector2(relPos.x,relPos.z);
