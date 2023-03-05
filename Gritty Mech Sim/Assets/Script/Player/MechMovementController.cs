@@ -27,6 +27,7 @@ public class MechMovementController : MonoBehaviour
     [SerializeField] private CockpitController pilotLookCam;
     [SerializeField] private Transform cockpitRotationRoot;
     [Tooltip("look speed of the mech camera root, in degrees per second")]
+
     private float lookSpeed = 90f;
 
     private float tiltFactor = 2f;
@@ -73,6 +74,8 @@ public class MechMovementController : MonoBehaviour
     [SerializeField] private float spreadAngle = 2f;
 
     [SerializeField] private GameObject shieldPrefab;
+
+    [SerializeField] private UIManager myUIManager;
 
     // Start is called before the first frame update
     void Start()
@@ -330,5 +333,9 @@ public class MechMovementController : MonoBehaviour
 
     public bool getIsSmoked() {
         return isSmoked;
+    }
+
+    public UIManager getMyUiMan() {
+        return myUIManager;
     }
 }

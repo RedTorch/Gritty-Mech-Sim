@@ -47,10 +47,11 @@ public class BulletController : MonoBehaviour
                 if(target.GetComponent<DamageReceiver>()) {
                     target.GetComponent<DamageReceiver>().onReceiveDamage(Damage);
                 }
-                GameObject ps = Instantiate(HitPsPrefab, hit.point, Quaternion.identity);
-                ps.GetComponent<HitPS>().setMaterial(target);
+                if(HitPsPrefab) {
+                    GameObject ps = Instantiate(HitPsPrefab, hit.point, Quaternion.identity);
+                    ps.GetComponent<HitPS>().setMaterial(target);
+                }
                 transform.position = hit.point;
-                returnHitAlert();
                 selfDestroy();
                 // return;
             }
@@ -79,13 +80,16 @@ public class BulletController : MonoBehaviour
 
     public void setFiredBy(GameObject atkr) {
         firedBy = atkr;
+        if(atkr.name == "Player") {
+            setUiman(atkr.GetComponent<MechMovementController>().getMyUiMan());
+        }
+    }
+
+    public void setUiman(UIManager newman) {
+        uiman = newman;
     }
 
     public float getMaxDistance() {
         return MaxDistance;
-    }
-
-    private void returnHitAlert() {
-        // 
     }
 }

@@ -30,9 +30,20 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Image WeaponBar;
     [SerializeField] private Image WeaponBar2;
 
+    [SerializeField] private LauncherController myLauncherController;
+    [SerializeField] private Image GrenadeBar;
+    [SerializeField] private TMP_Text grenadeText;
+    [SerializeField] private Image RocketBar;
+    [SerializeField] private TMP_Text rocketText;
+
     [SerializeField] private Color safeColor;
     [SerializeField] private Color dangerColor;
     [SerializeField] private Color criticalColor;
+
+    [SerializeField] private Image HitMarker;
+    private float hitOpacityPercent = 0f;
+    [SerializeField] private Image DestroyedMarker;
+    private float destroyedOpacityPercent = 0f;
 
     [SerializeField] private MechMovementController mmcon;
     // Start is called before the first frame update
@@ -52,6 +63,7 @@ public class UIManager : MonoBehaviour
         updateWeapon();
         updateWeapon2();
         updateShield();
+        updateGrenade();
     }
 
     private void updateHeat() {
@@ -148,12 +160,19 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    private void updateGrenade() {
+        GrenadeBar.fillAmount = myLauncherController.getCurrPercent();
+        grenadeText.text = myLauncherController.getText();
+    }
+
     public void showHitMarker() {
+        print("hit marker!");
         // show htimarker
         // play hit sound
     }
 
     public void showDestroyedMarker() {
+        print("destroy marker!");
         // show destroyed marker
     }
 }

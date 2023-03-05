@@ -14,6 +14,9 @@ public class LauncherController : MonoBehaviour
     private bool tryFire = false;
     private int currCapacity = 3;
     private float currCooldown = 0f;
+    private float currReload = 0f;
+
+    private float currentBarMax = 0f;
 
     // Start is called before the first frame update
     void Start()
@@ -24,18 +27,19 @@ public class LauncherController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(tryFire && currCapacity > 0 && currCooldown <= 0f) {
+        if(tryFire && currCapacity > 0 && currCooldown <= 0f && currReload >= reloadCooldown) {
             fireProjectile();
             currCapacity -= 1;
             if(currCapacity <= 0) {
                 currCapacity = capacity;
-                currCooldown = reloadCooldown;
+                currReload = 0f;
             } else {
                 currCooldown = cooldown;
             }
             tryFire = false;
         }
         currCooldown = Mathf.Clamp(currCooldown - Time.deltaTime, 0f, cooldown);
+        currReload = Mathf.Clamp(currReload + Time.deltaTime, 0f, reloadCooldown);
     }
 
     public void OnTryFire() {
@@ -50,5 +54,11 @@ public class LauncherController : MonoBehaviour
         // play fire sound, effects, etc..
     }
 
-    //
+    public string getText() {
+        return $"GRN-{currCapacity}";
+    }
+
+    public float getCurrPercent() {
+        return currReload/reloadCooldown;
+    }
 }
