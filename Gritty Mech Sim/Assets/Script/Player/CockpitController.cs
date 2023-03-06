@@ -19,6 +19,7 @@ public class CockpitController : MonoBehaviour
     [SerializeField] private Image pilotFreelookCrosshairs;
     [SerializeField] private MechMovementController mechMoveController;
     [SerializeField] private LauncherController myLauncherController;
+    [SerializeField] private LauncherController myRocketLauncherController;
     [SerializeField] private Transform camRootOuter;
     [SerializeField] private Transform cameraTransform;
     private Vector2 freelookRotation = new Vector2(0f,0f);
@@ -105,6 +106,10 @@ public class CockpitController : MonoBehaviour
 
         if(Input.GetKeyDown("g")) {
             myLauncherController.OnTryFire();
+        }
+
+        if(Input.GetKeyDown("f")) {
+            myRocketLauncherController.OnTryFire();
         }
 
         if(isShaking) {

@@ -4,16 +4,19 @@ using UnityEngine;
 
 public class BulletController : MonoBehaviour
 {
-    private float Damage = 15f;
-    private float SpeedInMetersPerSecond = 1200f; // 1200f is a realistic tank shell speed -- 1400 at max? Btw, an atgm will be 8x slower
-    private float MaxDistance = 500f;
+    [SerializeField] private float Damage = 15f;
+    [SerializeField] private float SpeedInMetersPerSecond = 1200f; // 1200f is a realistic tank shell speed -- 1400 at max? Btw, an atgm will be 8x slower
+    [SerializeField] private float MaxDistance = 500f;
     private float totalDistTraveled = 0f;
     private GameObject firedBy;
 
     [SerializeField] private GameObject HitPsPrefab;
+    [SerializeField] private GameObject ExplosionPsPrefab;
     [SerializeField] private GameObject debugCube;
 
     [SerializeField] private UIManager uiman;
+
+    [SerializeField] private GameObject myParticleSystemObject;
     // Start is called before the first frame update
     void Start()
     {
@@ -51,6 +54,12 @@ public class BulletController : MonoBehaviour
                     GameObject ps = Instantiate(HitPsPrefab, hit.point, Quaternion.identity);
                     ps.GetComponent<HitPS>().setMaterial(target);
                 }
+                if(ExplosionPsPrefab) {
+                    GameObject ps = Instantiate(ExplosionPsPrefab, hit.point, Quaternion.identity);
+                }
+                if(myParticleSystemObject) {
+                    myParticleSystemObject.transform.SetParent(null);
+                }
                 transform.position = hit.point;
                 selfDestroy();
                 // return;
@@ -72,10 +81,6 @@ public class BulletController : MonoBehaviour
             Destroy(cube,1f);
         }
         Destroy(gameObject);
-    }
-
-    public void setDamage(float val) {
-        Damage = val;
     }
 
     public void setFiredBy(GameObject atkr) {

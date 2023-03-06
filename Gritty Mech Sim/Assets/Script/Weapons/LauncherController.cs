@@ -9,6 +9,7 @@ public class LauncherController : MonoBehaviour
     private float reloadCooldown = 3f;
     private float launchVelocity = 40f;
     [SerializeField] private GameObject launchedItemPrefab;
+    [SerializeField] private string displayName = "GRN"; // this should be 3 characters or less to fit on the screen!
     private Transform launcher;
 
     private bool tryFire = false;
@@ -55,7 +56,7 @@ public class LauncherController : MonoBehaviour
     }
 
     public string getText() {
-        return $"GRN-{currCapacity}";
+        return $"{displayName}-{currCapacity}";
     }
 
     public float getCurrPercent() {

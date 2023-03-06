@@ -7,7 +7,7 @@ using TMPro;
 /*
 functionalities:
 - Heat
-- SHield
+- Shield
 - HP
 - Weapon Overheat
 
@@ -31,6 +31,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Image WeaponBar2;
 
     [SerializeField] private LauncherController myLauncherController;
+    [SerializeField] private LauncherController myRocketLauncherController;
     [SerializeField] private Image GrenadeBar;
     [SerializeField] private TMP_Text grenadeText;
     [SerializeField] private Image RocketBar;
@@ -64,14 +65,8 @@ public class UIManager : MonoBehaviour
         updateWeapon2();
         updateShield();
         updateGrenade();
-        hitOpacityPercent = Mathf.Clamp(hitOpacityPercent-(Time.deltaTime*2f),0f,1f);
-        var tempColor = HitMarker.color;
-        tempColor.a = hitOpacityPercent;
-        HitMarker.color = tempColor;
-        destroyedOpacityPercent = Mathf.Clamp(destroyedOpacityPercent-(Time.deltaTime),0f,1f);
-        var tempColor2 = DestroyedMarker.color;
-        tempColor2.a = destroyedOpacityPercent;
-        DestroyedMarker.color = tempColor2;
+        updateRocket();
+        updateHitMarkers();
     }
 
     private void updateHeat() {
@@ -173,6 +168,11 @@ public class UIManager : MonoBehaviour
         grenadeText.text = myLauncherController.getText();
     }
 
+    private void updateRocket() {
+        RocketBar.fillAmount = myRocketLauncherController.getCurrPercent();
+        rocketText.text = myRocketLauncherController.getText();
+    }
+
     public void showHitMarker() {
         hitOpacityPercent = 1f;
         // play hit sound
@@ -182,5 +182,16 @@ public class UIManager : MonoBehaviour
         destroyedOpacityPercent = 1f;
         // show destroyed marker
         // play destroyed sound
+    }
+
+    private void updateHitMarkers() {
+        hitOpacityPercent = Mathf.Clamp(hitOpacityPercent-(Time.deltaTime*2f),0f,1f);
+        var tempColor = HitMarker.color;
+        tempColor.a = hitOpacityPercent;
+        HitMarker.color = tempColor;
+        destroyedOpacityPercent = Mathf.Clamp(destroyedOpacityPercent-(Time.deltaTime),0f,1f);
+        var tempColor2 = DestroyedMarker.color;
+        tempColor2.a = destroyedOpacityPercent;
+        DestroyedMarker.color = tempColor2;
     }
 }
