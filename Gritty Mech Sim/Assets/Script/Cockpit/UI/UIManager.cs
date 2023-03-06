@@ -64,6 +64,14 @@ public class UIManager : MonoBehaviour
         updateWeapon2();
         updateShield();
         updateGrenade();
+        hitOpacityPercent = Mathf.Clamp(hitOpacityPercent-(Time.deltaTime*2f),0f,1f);
+        var tempColor = HitMarker.color;
+        tempColor.a = hitOpacityPercent;
+        HitMarker.color = tempColor;
+        destroyedOpacityPercent = Mathf.Clamp(destroyedOpacityPercent-(Time.deltaTime),0f,1f);
+        var tempColor2 = DestroyedMarker.color;
+        tempColor2.a = destroyedOpacityPercent;
+        DestroyedMarker.color = tempColor2;
     }
 
     private void updateHeat() {
@@ -166,13 +174,13 @@ public class UIManager : MonoBehaviour
     }
 
     public void showHitMarker() {
-        print("hit marker!");
-        // show htimarker
+        hitOpacityPercent = 1f;
         // play hit sound
     }
 
     public void showDestroyedMarker() {
-        print("destroy marker!");
+        destroyedOpacityPercent = 1f;
         // show destroyed marker
+        // play destroyed sound
     }
 }
