@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class LauncherController : MonoBehaviour
 {
-    private int capacity = 3;
-    private float cooldown = 1f; // in seconds
-    private float reloadCooldown = 3f;
+    [SerializeField] private int capacity = 3;
+    [SerializeField] private float cooldown = 1f; // in seconds
+    [SerializeField] private float reloadCooldown = 3f;
     private float launchVelocity = 40f;
     [SerializeField] private GameObject launchedItemPrefab;
     [SerializeField] private string displayName = "GRN"; // this should be 3 characters or less to fit on the screen!

@@ -172,12 +172,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   heatText: {fileID: 208246305}
+  shieldText: {fileID: 628818957}
   damageText: {fileID: 1819917614}
   weaponText: {fileID: 521768808}
-  shieldText: {fileID: 628818957}
+  HeatBar: {fileID: 0}
+  ShieldBar: {fileID: 0}
+  HpBar: {fileID: 0}
+  WeaponBar: {fileID: 0}
+  WeaponBar2: {fileID: 0}
+  myLauncherController: {fileID: 0}
+  myRocketLauncherController: {fileID: 0}
+  GrenadeBar: {fileID: 0}
+  grenadeText: {fileID: 0}
+  RocketBar: {fileID: 0}
+  rocketText: {fileID: 0}
   safeColor: {r: 0.53333336, g: 1, b: 0.53333336, a: 1}
   dangerColor: {r: 0.78431374, g: 0.9137255, b: 0.3254902, a: 1}
   criticalColor: {r: 0.89411765, g: 0.19607843, b: 0.13333334, a: 1}
+  HitMarker: {fileID: 0}
+  DestroyedMarker: {fileID: 0}
   mmcon: {fileID: 242113746}
 --- !u!1 &71848003
 GameObject:
@@ -1302,6 +1315,9 @@ MonoBehaviour:
   destroyedPsPrefab: {fileID: 7891756223240747604, guid: b98284a7d69a04445a0031d026457993,
     type: 3}
   isAi: 0
+  spreadAngle: 2
+  shieldPrefab: {fileID: 0}
+  myUIManager: {fileID: 0}
 --- !u!136 &242113747
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1959,7 +1975,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bd800905423f41f68a26f1311055ec9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  capacity: 3
+  cooldown: 1
+  reloadCooldown: 3
   launchedItemPrefab: {fileID: 0}
+  displayName: GRN
 --- !u!65 &336661767
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2550,6 +2570,7 @@ MonoBehaviour:
   mechPos: {fileID: 242113750}
   enemyIconPrefab: {fileID: 3220562291495359397, guid: a51fc7db0736a4870876ef009d3c4989,
     type: 3}
+  playerIconPrefab: {fileID: 0}
   iconRoot: {fileID: 1935050005}
   detectionCircleSprite: {fileID: 1398055249}
 --- !u!65 &488022332
@@ -3674,6 +3695,7 @@ MonoBehaviour:
   - {fileID: 7223639227923564697, guid: 8b9c5f4b7269b473f848091fef545016, type: 3}
   ground: {fileID: 1656774142}
   LevelGeoRoot: {fileID: 0}
+  generateApartments: 0
 --- !u!4 &659775991
 Transform:
   m_ObjectHideFlags: 0
@@ -4060,6 +4082,9 @@ MonoBehaviour:
   destroyedPsPrefab: {fileID: 7891756223240747604, guid: b98284a7d69a04445a0031d026457993,
     type: 3}
   isAi: 0
+  spreadAngle: 2
+  shieldPrefab: {fileID: 0}
+  myUIManager: {fileID: 0}
 --- !u!136 &696216444
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -5646,6 +5671,8 @@ MonoBehaviour:
   pilotPovCamera: {fileID: 1064930471}
   pilotFreelookCrosshairs: {fileID: 693842819}
   mechMoveController: {fileID: 242113746}
+  myLauncherController: {fileID: 0}
+  myRocketLauncherController: {fileID: 0}
   camRootOuter: {fileID: 1177490409}
   cameraTransform: {fileID: 1064930469}
   screenshakeAnimationCurve:
@@ -5690,6 +5717,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  adsImage: {fileID: 0}
 --- !u!1 &979912391
 GameObject:
   m_ObjectHideFlags: 0
@@ -8992,7 +9020,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1945673243
 Transform:
   m_ObjectHideFlags: 0

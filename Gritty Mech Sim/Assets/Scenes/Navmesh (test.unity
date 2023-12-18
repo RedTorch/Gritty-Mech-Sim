@@ -2712,6 +2712,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bd800905423f41f68a26f1311055ec9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  capacity: 3
+  cooldown: 1
+  reloadCooldown: 3
   launchedItemPrefab: {fileID: 5390890698416791359, guid: cc93396f15da94023a1b5daa0d37cdc7,
     type: 3}
   displayName: GRN
@@ -12719,6 +12722,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bd800905423f41f68a26f1311055ec9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  capacity: 5
+  cooldown: 0.1
+  reloadCooldown: 10
   launchedItemPrefab: {fileID: 6422399443785332860, guid: 10f68aad43e5b474f93632224e663dce,
     type: 3}
   displayName: RKT
